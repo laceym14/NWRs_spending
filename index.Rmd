@@ -1,0 +1,188 @@
+---
+title: "National Wildlife Refuge Funding"
+output:
+  flexdashboard::flex_dashboard:
+    css: custom.css
+    social: menu
+    df_print: paged
+    navbar:
+    - {title: "CCI", align: right, href: "https://defenders-cci.org", target: "_blank"}
+    - {title: "", icon: "fa-question-circle fa-lg", align: right, href: "mailto:jmalcom@defenders.org?subject=ESA intrastate species"}
+    - {title: "", icon: "fa-github fa-lg", align: right, href: "https://github.com/Defenders-ESC/", target: "_blank"}
+runtime: shiny
+---
+
+```{r setup, include = FALSE}
+library(dplyr)
+library(plotly)
+library(rvest)
+library(shiny)
+library(tibble)
+
+# Read in dataset
+dat <- read.csv("NWRS_refined.csv")
+
+# Get number of NWRs in each state
+nwrs_state <- aggregate(
+  dat$nwr_name ~ dat$state_territory, 
+  FUN = function(x) length(unique(x))
+)
+
+# Get total pub spending in each state
+cost_state <- aggregate(
+  dat$pub_fws_purchase_cost ~ dat$state_territory, 
+  FUN = sum)
+
+# Clean up column naming for both datasets
+names(nwrs_state) <- c("state", "refuge_count")
+names(cost_state) <- c("state", "pub_cost")
+
+# Join datasets into one
+state_data <- left_join(cost_state, nwrs_state, by = "state")
+
+# Import state abbreviations (needed for map later)
+st_abbrev <- read.csv("st_abb.csv")
+
+# Join state abbreviations into state_data dataset
+state_data <- left_join(state_data, st_abbrev, by = "state")
+
+# Get total number of refuge acres in each state
+acres <- aggregate(
+  dat$total_acres ~ dat$state_territory, 
+  FUN = sum)
+names(acres) <- c("state", "total_acres")
+
+# Join acres to state_data
+state_data <- left_join(state_data, acres, by = "state")
+
+# Add column to calculate dollars spent per acre in each state and round to two decimal places
+state_data$dollar_acre <- format(round(state_data$pub_cost / state_data$total_acres, 2), nsmall = 2)
+
+```
+
+Main
+=======================================================================
+
+Column {data-width=200}
+-----------------------------------------------------------------------
+
+### Background
+
+This app accompanies the report [REPORT TITLE](LINK). [TEXT PULLED FROM STORYMAP] As the first nation to develop a formal network of protected areas, the US has led the way in sharing the landscape with our wildlife neighbors. Today, our National Wildlife Refuge System includes some 568 national wildlife refuges, dedicating 95 million acres of land and 760 million acres of submerged lands and waters as a sanctuary for our nation's wildlife. Every state and US territory has at least one wildlife refuge, and most major US cities are within an hour's drive of one.
+
+While their awe-inspiring beauty attracts many human visitors, wildlife comes first on our refuges. The mission of the refuge system goes hand in hand with the goals of the Endangered Species Act (ESA) - the most effective law in the world for saving imperiled species and the ecosystems on which they depend. We have known about the special relationship between the ESA and refuges for decades, but unfortunately there has been no robust tally of how many threatened and endangered species are found on the National Wildlife Refuge System. Defenders of Wildlife and the National Wildlife Refuge Association teamed up to figure it out.
+
+What we found is astounding: 513 ESA-listed species are found or are dependent on at least 444 refuges.
+
+### Overall U.S. Numbers
+
+<div style='padding:3px; margin-bottom: 12px; background-color:#FF8400; color:white; border-radius:2px; font-size: 1.2em'>
+Total spending FY 2019
+```{r pct_overall}
+tags$p(
+  style = "font-size:2em; font-weight:600; color:white",
+  "$", sum(state_data$pub_cost)
+)
+```
+</div>
+<!-- <br> -->
+
+<div style='padding-left:5px; padding-right:50px;'>
+\# Acres Aquired by the US Department of Energy
+```{r n_intra}
+tags$p(
+  style = "font-size:1.7em; font-weight:700;",
+  sum(state_data$pub_cost)
+)
+```
+
+<hr>
+
+SummaryStat3 
+```{r n_list}
+tags$p(
+  style = "font-size:1.7em; font-weight:700;",
+  sum(state_data$pub_cost)
+)
+```
+</div>
+
+<br>
+
+
+Column {data-width=800}
+-----------------------------------------------------------------------
+
+### How much are states spending on their refuges? <span style="font-size:small">(hover over states for info)</span>
+
+```{r map, echo=FALSE}
+state_data$hover <- with(state_data, paste0(
+  "<span style='font-size:larger;font-weight:bold'>", state, 
+  ": $", pub_cost, "</span><br>", 
+  "<b>Total amount spent per acre of refuge land: $</b> ", dollar_acre
+))
+
+g <- list(
+  scope = 'usa',
+  projection = list(type = 'albers usa'),
+  showlakes = TRUE,
+  lakecolor = toRGB('white')
+)
+  
+renderPlotly({
+  plot_geo(state_data, locationmode = 'USA-states', hoverlabel = "none") %>%
+    add_trace(
+      z = ~pub_cost, 
+      text = ~hover,
+      locations = ~state_abb,
+      color = ~pub_cost, 
+      colors = 'YlOrRd'
+    ) %>%
+    colorbar(title = "Amount Spent") %>%
+    layout(geo = g)
+})
+```
+
+
+Data
+=======================================================================
+
+Column {data-width=1000}
+-----------------------------------------------------------------------
+
+```{r data_table, echo = FALSE}
+#show <- distinct(intra_occ, scientific, state, .keep_all = TRUE)
+#grp <- data_frame(
+#  scientific = dat$scientific,
+#  taxon = dat$taxon
+#) %>% distinct()
+
+#show <- left_join(show, grp, by = "scientific")
+#show <- with(show, tibble(
+#  state = state, 
+#  common = common, 
+#  scientific = scientific, 
+#  taxon = taxon.x #,
+  # URL = paste0("<a target='_blank' href='", scientific_name_url, "'>ECOS Link</a>")
+#))
+
+#tags$div(
+#  style = "padding:20px; background-color:white;",
+#  DT::renderDataTable({
+#    DT::datatable(
+#      show,
+#      filter = "top",
+#      escape = FALSE,
+#      extensions = c("Buttons"),
+#      options = list(
+#        rownames = FALSE,
+#        paging = FALSE,
+#        dom = 'Bfrtip',
+#        buttons = c('copy', 'csv', 'excel'),
+#        scrollX = TRUE,
+#        scrollY = TRUE
+#      )
+#    )
+#  })
+#)
+```

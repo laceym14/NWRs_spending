@@ -60,7 +60,7 @@ state_data$dollar_acre <- format(round(state_data$pub_cost / state_data$total_ac
 
 ```
 
-Main
+Refuge System
 =======================================================================
 
 Column {data-width=200}
@@ -220,27 +220,176 @@ renderPlotly({
 })
 ```
 
-Background
+
+Wilderness Areas
+=======================================================================
+
+Column {data-width=200}
+-----------------------------------------------------------------------
+
+### Introduction
+
+Point to Table ??.
+
+### Overall U.S. Numbers
+
+<div style='padding:3px; margin-bottom: 12px; background-color:#FF8400; color:white; border-radius:2px; font-size: 1.2em'>
+Total refuge land area
+```{r pct_overall3}
+tags$p(
+  style = "font-size:2em; font-weight:600; color:white",
+  sum(state_data$pub_cost), "acres"
+)
+```
+</div>
+<!-- <br> -->
+
+<div style='padding-left:5px; padding-right:50px;'>
+\# Acres Aquired by other agencies (the US Department of Energy, etc.)
+```{r n_intra3}
+tags$p(
+  style = "font-size:1.7em; font-weight:700;",
+  sum(state_data$pub_cost)
+)
+```
+
+<hr>
+
+Total spending FY 2019 
+```{r n_list3}
+tags$p(
+  style = "font-size:1.7em; font-weight:700;",
+  "$", sum(state_data$pub_cost)
+)
+```
+</div>
+
+<br>
+
+
+Column {data-width=800}
+-----------------------------------------------------------------------
+
+### Federal spending on National Wildlife Refuges <span style="font-size:small">(hover over states for info)</span>
+
+```{r map3, echo=FALSE}
+state_data$hover <- with(state_data, paste0(
+  "<span style='font-size:larger;font-weight:bold'>", state, 
+  ": $", pub_cost, "</span><br>", 
+  "<b>Total amount spent per acre of refuge land: $</b> ", dollar_acre
+))
+
+g <- list(
+  scope = 'usa',
+  projection = list(type = 'albers usa'),
+  showlakes = TRUE,
+  lakecolor = toRGB('white')
+)
+  
+renderPlotly({
+  plot_geo(state_data, locationmode = 'USA-states', hoverlabel = "none") %>%
+    add_trace(
+      z = ~pub_cost, 
+      text = ~hover,
+      locations = ~state_abb,
+      color = ~pub_cost, 
+      colors = 'YlOrRd'
+    ) %>%
+    colorbar(title = "Amount Spent") %>%
+    layout(geo = g)
+})
+```
+
+National Monuments
+=======================================================================
+
+Column {data-width=200}
+-----------------------------------------------------------------------
+
+### Introduction
+
+Point to Table 10. Visualize with a bar graph sorting monuments from smallest to largest? No map (or may small inset map at most)
+Add pie chart of all non-monument areas and then monument areas - show vast majority of refuge acreage are in the national monuments.
+
+
+### Overall U.S. Numbers
+
+<div style='padding:3px; margin-bottom: 12px; background-color:#FF8400; color:white; border-radius:2px; font-size: 1.2em'>
+Total refuge land area
+```{r pct_overall4}
+tags$p(
+  style = "font-size:2em; font-weight:600; color:white",
+  sum(state_data$pub_cost), "acres"
+)
+```
+</div>
+<!-- <br> -->
+
+<div style='padding-left:5px; padding-right:50px;'>
+\# Acres Aquired by other agencies (the US Department of Energy, etc.)
+```{r n_intra4}
+tags$p(
+  style = "font-size:1.7em; font-weight:700;",
+  sum(state_data$pub_cost)
+)
+```
+
+<hr>
+
+Total spending FY 2019 
+```{r n_list4}
+tags$p(
+  style = "font-size:1.7em; font-weight:700;",
+  "$", sum(state_data$pub_cost)
+)
+```
+</div>
+
+<br>
+
+
+Column {data-width=800}
+-----------------------------------------------------------------------
+
+### Federal spending on National Wildlife Refuges <span style="font-size:small">(hover over states for info)</span>
+
+```{r map4, echo=FALSE}
+state_data$hover <- with(state_data, paste0(
+  "<span style='font-size:larger;font-weight:bold'>", state, 
+  ": $", pub_cost, "</span><br>", 
+  "<b>Total amount spent per acre of refuge land: $</b> ", dollar_acre
+))
+
+g <- list(
+  scope = 'usa',
+  projection = list(type = 'albers usa'),
+  showlakes = TRUE,
+  lakecolor = toRGB('white')
+)
+  
+renderPlotly({
+  plot_geo(state_data, locationmode = 'USA-states', hoverlabel = "none") %>%
+    add_trace(
+      z = ~pub_cost, 
+      text = ~hover,
+      locations = ~state_abb,
+      color = ~pub_cost, 
+      colors = 'YlOrRd'
+    ) %>%
+    colorbar(title = "Amount Spent") %>%
+    layout(geo = g)
+})
+```
+
+
+Data and Background (or More...)
 =======================================================================
 
 Column {data-width=1000}
 -----------------------------------------------------------------------
 
-### Background
-
-[TEXT PULLED FROM STORYMAP] As the first nation to develop a formal network of protected areas, the US has led the way in sharing the landscape with our wildlife neighbors. Today, our National Wildlife Refuge System includes some 568 national wildlife refuges, dedicating 95 million acres of land and 760 million acres of submerged lands and waters as a sanctuary for our nation's wildlife. Every state and US territory has at least one wildlife refuge, and most major US cities are within an hour's drive of one.
-
-While their awe-inspiring beauty attracts many human visitors, wildlife comes first on our refuges. The mission of the refuge system goes hand in hand with the goals of the Endangered Species Act (ESA) - the most effective law in the world for saving imperiled species and the ecosystems on which they depend. We have known about the special relationship between the ESA and refuges for decades, but unfortunately there has been no robust tally of how many threatened and endangered species are found on the National Wildlife Refuge System. Defenders of Wildlife and the National Wildlife Refuge Association teamed up to figure it out.
-
-What we found is astounding: 513 ESA-listed species are found or are dependent on at least 444 refuges
-
-
-Data
-=======================================================================
-
-Column {data-width=1000}
------------------------------------------------------------------------
-
+### Data
+NWRS_refined table in OSF... but keep separate RDS files to pull data for app
 ```{r data_table, echo = FALSE}
 #show <- distinct(intra_occ, scientific, state, .keep_all = TRUE)
 #grp <- data_frame(
@@ -277,3 +426,14 @@ Column {data-width=1000}
 #  })
 #)
 ```
+Column {data-width=1000}
+-----------------------------------------------------------------------
+
+### Background
+Discuss breakdown of refuge land: refuges, hatcheries, wilderness areas, monuments
+
+[TEXT PULLED FROM STORYMAP] As the first nation to develop a formal network of protected areas, the US has led the way in sharing the landscape with our wildlife neighbors. Today, our National Wildlife Refuge System includes some 568 national wildlife refuges, dedicating 95 million acres of land and 760 million acres of submerged lands and waters as a sanctuary for our nation's wildlife. Every state and US territory has at least one wildlife refuge, and most major US cities are within an hour's drive of one.
+
+While their awe-inspiring beauty attracts many human visitors, wildlife comes first on our refuges. The mission of the refuge system goes hand in hand with the goals of the Endangered Species Act (ESA) - the most effective law in the world for saving imperiled species and the ecosystems on which they depend. We have known about the special relationship between the ESA and refuges for decades, but unfortunately there has been no robust tally of how many threatened and endangered species are found on the National Wildlife Refuge System. Defenders of Wildlife and the National Wildlife Refuge Association teamed up to figure it out.
+
+What we found is astounding: 513 ESA-listed species are found or are dependent on at least 444 refuges

@@ -19,8 +19,22 @@ library(rvest)
 library(shiny)
 library(tibble)
 
+# Convert CSV to RDS
+#dat <- read.csv("NWRS_refined.csv")
+#saveRDS(dat, file = "NWRS_refined.rds")
+#natmon <- read.csv("table_10.csv")
+#saveRDS(natmon, file = "table_10.rds")
+#hatcheries <- read.csv("table_7.csv")
+#saveRDS(hatcheries, file = "table_7.rds")
+#wilderness <- read.csv("table_8.csv")
+#saveRDS(wilderness, file = "table_8.rds")
+
+
 # Read in dataset
-dat <- read.csv("NWRS_refined.csv")
+dat <- readRDS(file = "NWRS_refined.rds")
+natmon <- readRDS(file = "table_10.rds")
+hatcheries <- readRDS(file = "table_7.rds")
+wilderness <- readRDS(file = "table_8.rds")
 
 # Get number of NWRs in each state
 nwrs_state <- aggregate(
@@ -190,7 +204,7 @@ tags$p(
 Column {data-width=800}
 -----------------------------------------------------------------------
 
-### Federal spending on National Wildlife Refuges <span style="font-size:small">(hover over states for info)</span>
+### Federal spending on Hatcheries <span style="font-size:small">(hover over states for info)</span>
 
 ```{r map2, echo=FALSE}
 state_data$hover <- with(state_data, paste0(
@@ -271,7 +285,7 @@ tags$p(
 Column {data-width=800}
 -----------------------------------------------------------------------
 
-### Federal spending on National Wildlife Refuges <span style="font-size:small">(hover over states for info)</span>
+### Federal spending on Wilderness Areas <span style="font-size:small">(hover over states for info)</span>
 
 ```{r map3, echo=FALSE}
 state_data$hover <- with(state_data, paste0(
@@ -352,7 +366,7 @@ tags$p(
 Column {data-width=800}
 -----------------------------------------------------------------------
 
-### Federal spending on National Wildlife Refuges <span style="font-size:small">(hover over states for info)</span>
+### Federal spending on National Monuments <span style="font-size:small">(hover over states for info)</span>
 
 ```{r map4, echo=FALSE}
 state_data$hover <- with(state_data, paste0(

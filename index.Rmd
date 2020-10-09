@@ -8,7 +8,7 @@ output:
     navbar:
     - {title: "CCI", align: right, href: "https://defenders-cci.org", target: "_blank"}
     - {title: "", icon: "fa-question-circle fa-lg", align: right, href: "mailto:jmalcom@defenders.org?subject=ESA intrastate species"}
-    - {title: "", icon: "fa-github fa-lg", align: right, href: "https://github.com/Defenders-ESC/", target: "_blank"}
+    - {title: "", icon: "fa-github fa-lg", align: right, href: "https://github.com/laceym14/NWRs_spending", target: "_blank"}
 runtime: shiny
 ---
 
@@ -230,6 +230,7 @@ Column {data-width=200}
 ### Introduction
 
 Point to Table ??.
+
 
 ### Overall U.S. Numbers
 

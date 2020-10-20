@@ -21,12 +21,18 @@ library(tibble)
 
 # Read in dataset
 dat <- read.csv("NWRS_refined.csv")
+data <- read.csv("table_10.csv")
+fh <- read.csv("table_7.csv")
+wa <- read.csv("table_8.csv")
+
+
 
 # Get number of NWRs in each state
 nwrs_state <- aggregate(
   dat$nwr_name ~ dat$state_territory, 
   FUN = function(x) length(unique(x))
 )
+
 
 # Get total pub spending in each state
 cost_state <- aggregate(
@@ -58,20 +64,49 @@ state_data <- left_join(state_data, acres, by = "state")
 # Add column to calculate dollars spent per acre in each state and round to two decimal places
 state_data$dollar_acre <- format(round(state_data$pub_cost / state_data$total_acres, 2), nsmall = 2)
 
+# Get number of fish hatchery in each state
+hatchery_state <- aggregate(
+  fh$unit_name ~ fh$state, 
+  FUN = function(x) length(unique(x))
+)
+
+#get total num of wilderness areas in each state
+wa_state <- aggregate(
+  wa$wilderness_name ~ wa$state,
+  FUN = function(x) length(unique(x))
+)
+
+#clean up name
+names(wa_state) <- c("state", "wilderness_count")
+
+#get total wilderness acres in each state
+acres3 <- aggregate(
+  wa$wilderness_acres ~ wa$state,
+  FUN = sum)
+names (acres3) <- c("state", "wild_acres")
+
+#join datasets into one
+wild_state_data <- left_join(wa_state, acres3, by = "state")
+
+#join state abbreviations into wild_state_data
+wild_state_data <- left_join(wild_state_data, st_abbrev, by = "state")
+
+
 ```
 
 Refuge System
 =======================================================================
 
-Column {data-width=200}
+Column {data-width=200, .tabset}
 -----------------------------------------------------------------------
 
 ### Introduction
 
-USFWS provides expenditures data reports each year. 57 pages of dense PDFs... We have taken the time to extract the data and make this information readily available...
+USFWS provides expenditures data reports each year in 59 pages of dense PDFs. We have taken the time to extract the data and make this information readily available. 
 
 
 ### Overall U.S. Numbers
+
 
 <div style='padding:3px; margin-bottom: 12px; background-color:#FF8400; color:white; border-radius:2px; font-size: 1.2em'>
 Total refuge land area
@@ -141,6 +176,9 @@ renderPlotly({
 ```
 
 
+
+
+
 Hatcheries
 =======================================================================
 
@@ -149,12 +187,14 @@ Column {data-width=200}
 
 ### Introduction
 
-Point to Table 7. Not every site may be a true "fish hatchery"
+Point to Table 7. Cleaned rows to not include sites that aren't true fish hatchery.
 
 ### Overall U.S. Numbers
 
+
+
 <div style='padding:3px; margin-bottom: 12px; background-color:#FF8400; color:white; border-radius:2px; font-size: 1.2em'>
-Total refuge land area
+Total hatchery land area
 ```{r pct_overall2}
 tags$p(
   style = "font-size:2em; font-weight:600; color:white",
@@ -190,7 +230,7 @@ tags$p(
 Column {data-width=800}
 -----------------------------------------------------------------------
 
-### Federal spending on National Wildlife Refuges <span style="font-size:small">(hover over states for info)</span>
+### Federal spending on National Fish Hatcheries <span style="font-size:small">(hover over states for info)</span>
 
 ```{r map2, echo=FALSE}
 state_data$hover <- with(state_data, paste0(
@@ -221,47 +261,40 @@ renderPlotly({
 ```
 
 
+
+
 Wilderness Areas
 =======================================================================
 
-Column {data-width=200}
+Column {data-width=300, .tabset}
 -----------------------------------------------------------------------
 
 ### Introduction
 
-Point to Table ??.
+This table identifies the designated wilderness areas within National Wildlife Refuges. The refuges are also included under the refuge system tab. Point to Table 8. Maybe add a count of how many wilderness area per state?
 
 ### Overall U.S. Numbers
 
 <div style='padding:3px; margin-bottom: 12px; background-color:#FF8400; color:white; border-radius:2px; font-size: 1.2em'>
-Total refuge land area
+Total wilderness area
 ```{r pct_overall3}
 tags$p(
   style = "font-size:2em; font-weight:600; color:white",
-  sum(state_data$pub_cost), "acres"
+  sum(wa$wilderness_acres), "acres"
 )
 ```
+
 </div>
 <!-- <br> -->
 
 <div style='padding-left:5px; padding-right:50px;'>
 \# Acres Aquired by other agencies (the US Department of Energy, etc.)
-```{r n_intra3}
-tags$p(
-  style = "font-size:1.7em; font-weight:700;",
-  sum(state_data$pub_cost)
-)
-```
+
 
 <hr>
 
 Total spending FY 2019 
-```{r n_list3}
-tags$p(
-  style = "font-size:1.7em; font-weight:700;",
-  "$", sum(state_data$pub_cost)
-)
-```
+
 </div>
 
 <br>
@@ -270,13 +303,13 @@ tags$p(
 Column {data-width=800}
 -----------------------------------------------------------------------
 
-### Federal spending on National Wildlife Refuges <span style="font-size:small">(hover over states for info)</span>
+### Wilderness Areas in National Wildlife Refuges <span style="font-size:small">(hover over states for info)</span>
 
 ```{r map3, echo=FALSE}
-state_data$hover <- with(state_data, paste0(
+wild_state_data$hover <- with(wild_state_data, paste0(
   "<span style='font-size:larger;font-weight:bold'>", state, 
-  ": $", pub_cost, "</span><br>", 
-  "<b>Total amount spent per acre of refuge land: $</b> ", dollar_acre
+  ": ", wilderness_count, "</span><br>", 
+  "<b>Total amount of wilderness acre in refuge land: </b> ", wild_acres
 ))
 
 g <- list(
@@ -287,23 +320,30 @@ g <- list(
 )
   
 renderPlotly({
-  plot_geo(state_data, locationmode = 'USA-states', hoverlabel = "none") %>%
+  plot_geo(wild_state_data, locationmode = 'USA-states', hoverlabel = "none") %>%
     add_trace(
-      z = ~pub_cost, 
+      z = ~wild_acres, 
       text = ~hover,
       locations = ~state_abb,
-      color = ~pub_cost, 
+      color = ~wild_acres, 
       colors = 'YlOrRd'
     ) %>%
-    colorbar(title = "Amount Spent") %>%
+    colorbar(title = "Acre") %>%
     layout(geo = g)
 })
 ```
 
+Column {data-width=800}
+-----------------------------------------------------------------------
+### Wilderness areas within NWRS <span style="font-size:small">(will delete later)</span>
+
+
+
+
 National Monuments
 =======================================================================
 
-Column {data-width=200}
+Column {data-width=400}
 -----------------------------------------------------------------------
 
 ### Introduction
@@ -351,7 +391,7 @@ tags$p(
 Column {data-width=800}
 -----------------------------------------------------------------------
 
-### Federal spending on National Wildlife Refuges <span style="font-size:small">(hover over states for info)</span>
+### Do we need this map? Federal spending on National Monuments <span style="font-size:small">(hover over states for info)</span>
 
 ```{r map4, echo=FALSE}
 state_data$hover <- with(state_data, paste0(
@@ -380,6 +420,24 @@ renderPlotly({
     layout(geo = g)
 })
 ```
+
+Column {data-width=800}
+-----------------------------------------------------------------------
+
+### Monument acreage size <span style="font-size:small">(smallest to largest)</span>
+
+```{r bargraph, echo = FALSE}
+
+
+```
+
+
+
+
+### Non-monument areas to monument areas
+
+
+
 
 
 Data and Background (or More...)
@@ -430,7 +488,14 @@ Column {data-width=1000}
 -----------------------------------------------------------------------
 
 ### Background
-Discuss breakdown of refuge land: refuges, hatcheries, wilderness areas, monuments
+
+National Wildlife Refuges (NWRs) include the Refuge System lands, waters, and interests administered by Fish and Wildlife Service as wildlife refuges, wildlife ranges, wildlife monument areas, game preserves, and conservation areas. 
+
+National Fish Hatcheries are National Fish Hatchcery System lands and waters where fish are raised. 
+
+Wilderness Areas in National Wildlife Refuges identifies the Congressionally designated wilderness areas within national wildlife refuges and one national fish hatchery. These are also included in the NWR map. 
+
+Discuss breakdown of refuge land: refuges, hatcheries, wilderness areas, national monuments
 
 [TEXT PULLED FROM STORYMAP] As the first nation to develop a formal network of protected areas, the US has led the way in sharing the landscape with our wildlife neighbors. Today, our National Wildlife Refuge System includes some 568 national wildlife refuges, dedicating 95 million acres of land and 760 million acres of submerged lands and waters as a sanctuary for our nation's wildlife. Every state and US territory has at least one wildlife refuge, and most major US cities are within an hour's drive of one.
 

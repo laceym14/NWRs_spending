@@ -21,7 +21,7 @@ library(tibble)
 
 # Read in dataset
 dat <- read.csv("NWRS_refined.csv")
-data <- read.csv("table_10.csv")
+nm <- read.csv("table_10.csv")
 fh <- read.csv("table_7.csv")
 wa <- read.csv("table_8.csv")
 

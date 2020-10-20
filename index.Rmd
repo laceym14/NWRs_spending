@@ -8,7 +8,7 @@ output:
     navbar:
     - {title: "CCI", align: right, href: "https://defenders-cci.org", target: "_blank"}
     - {title: "", icon: "fa-question-circle fa-lg", align: right, href: "mailto:jmalcom@defenders.org?subject=ESA intrastate species"}
-    - {title: "", icon: "fa-github fa-lg", align: right, href: "https://github.com/Defenders-ESC/", target: "_blank"}
+    - {title: "", icon: "fa-github fa-lg", align: right, href: "https://github.com/laceym14/NWRs_spending", target: "_blank"}
 runtime: shiny
 ---
 
@@ -19,13 +19,31 @@ library(rvest)
 library(shiny)
 library(tibble)
 
+# Convert CSV to RDS
+#dat <- read.csv("NWRS_refined.csv")
+#saveRDS(dat, file = "NWRS_refined.rds")
+#natmon <- read.csv("table_10.csv")
+#saveRDS(natmon, file = "table_10.rds")
+#hatcheries <- read.csv("table_7.csv")
+#saveRDS(hatcheries, file = "table_7.rds")
+#wilderness <- read.csv("table_8.csv")
+#saveRDS(wilderness, file = "table_8.rds")
+
+
 # Read in dataset
+<<<<<<< HEAD
 dat <- read.csv("NWRS_refined.csv")
 nm <- read.csv("table_10.csv")
 fh <- read.csv("table_7.csv")
 wa <- read.csv("table_8.csv")
 
 
+=======
+dat <- readRDS(file = "NWRS_refined.rds")
+natmon <- readRDS(file = "table_10.rds")
+hatcheries <- readRDS(file = "table_7.rds")
+wilderness <- readRDS(file = "table_8.rds")
+>>>>>>> 869a69487f96345898a99d542c4e494537407bab
 
 # Get number of NWRs in each state
 nwrs_state <- aggregate(
@@ -230,7 +248,11 @@ tags$p(
 Column {data-width=800}
 -----------------------------------------------------------------------
 
+<<<<<<< HEAD
 ### Federal spending on National Fish Hatcheries <span style="font-size:small">(hover over states for info)</span>
+=======
+### Federal spending on Hatcheries <span style="font-size:small">(hover over states for info)</span>
+>>>>>>> 869a69487f96345898a99d542c4e494537407bab
 
 ```{r map2, echo=FALSE}
 state_data$hover <- with(state_data, paste0(
@@ -273,6 +295,7 @@ Column {data-width=300, .tabset}
 
 This table identifies the designated wilderness areas within National Wildlife Refuges. The refuges are also included under the refuge system tab. Point to Table 8. Maybe add a count of how many wilderness area per state?
 
+
 ### Overall U.S. Numbers
 
 <div style='padding:3px; margin-bottom: 12px; background-color:#FF8400; color:white; border-radius:2px; font-size: 1.2em'>
@@ -303,7 +326,11 @@ Total spending FY 2019
 Column {data-width=800}
 -----------------------------------------------------------------------
 
+<<<<<<< HEAD
 ### Wilderness Areas in National Wildlife Refuges <span style="font-size:small">(hover over states for info)</span>
+=======
+### Federal spending on Wilderness Areas <span style="font-size:small">(hover over states for info)</span>
+>>>>>>> 869a69487f96345898a99d542c4e494537407bab
 
 ```{r map3, echo=FALSE}
 wild_state_data$hover <- with(wild_state_data, paste0(
@@ -391,7 +418,11 @@ tags$p(
 Column {data-width=800}
 -----------------------------------------------------------------------
 
+<<<<<<< HEAD
 ### Do we need this map? Federal spending on National Monuments <span style="font-size:small">(hover over states for info)</span>
+=======
+### Federal spending on National Monuments <span style="font-size:small">(hover over states for info)</span>
+>>>>>>> 869a69487f96345898a99d542c4e494537407bab
 
 ```{r map4, echo=FALSE}
 state_data$hover <- with(state_data, paste0(

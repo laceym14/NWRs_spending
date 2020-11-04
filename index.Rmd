@@ -302,7 +302,7 @@ Column {data-width=300, .tabset}
 
 ### Introduction
 
-This table identifies the designated wilderness areas within National Wildlife Refuges. The refuges are also included under the refuge system tab. Point to Table 8. Maybe add a count of how many wilderness area per state?
+This table identifies the designated wilderness areas within National Wildlife Refuges. The refuges are also included under the refuge system tab. Includes count of Wilderness Area labeled "state" in bold. This information uses data from Table 8.
 
 
 ### Overall U.S. Numbers

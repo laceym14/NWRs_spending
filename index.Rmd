@@ -133,7 +133,7 @@ Column {data-width=200, .tabset}
 
 ### Introduction
 
-USFWS provides expenditures data reports each year in 59 pages of dense PDFs. We have taken the time to extract the data and make this information readily available. 
+[The U.S. Fish and Wildlife Service](https://www.fws.gov/) provides expenditures data reports each year in 59 pages of dense PDFs. We have taken the time to extract the 2019 Annual Lands Report data and make this information readily available. (Data from the [U.s. Fish and Wildlife Service](https://www.fws.gov/refuges/land/PDF/2019_Annual_Report_Data_Tables(508-Compliant).pdf), as of 9/30/2019).
 
 
 ### Overall U.S. Numbers
@@ -302,7 +302,7 @@ Column {data-width=300, .tabset}
 
 ### Introduction
 
-This table identifies the designated wilderness areas within National Wildlife Refuges. The refuges are also included under the refuge system tab. Includes count of Wilderness Area labeled "state" in bold. This information uses data from Table 8.
+This table identifies the designated wilderness areas within National Wildlife Refuges. The refuges are also included under the refuge system tab. Includes count of Wilderness Area labeled **"state" in bold**. This information uses data from Table 8.
 
 
 ### Overall U.S. Numbers

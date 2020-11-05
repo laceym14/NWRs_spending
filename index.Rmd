@@ -76,6 +76,7 @@ acres <- aggregate(
   FUN = sum)
 names(acres) <- c("state", "total_acres")
 
+
 # Join acres to state_data
 state_data <- left_join(state_data, acres, by = "state")
 
@@ -87,8 +88,7 @@ hatchery_state <- aggregate(
   fh$unit_name ~ fh$state, 
   FUN = function(x) length(unique(x))
 )
-
-
+names(hatchery_state) <- c("state", "num_of_hatchery")
 
 #get total acres of hatchery in each state
 total_hatchery_acres <- aggregate(
@@ -97,7 +97,11 @@ total_hatchery_acres <- aggregate(
 )
 names (total_hatchery_acres) <- c("state", "hatchery_acres")
 
+# join datasets into one
+hatchery_state_data <- left_join(total_hatchery_acres, hatchery_state, by = "state")
 
+# Join state abbreviations into hatchery_state_data dataset
+hatchery_state_data <- left_join(hatchery_state_data, st_abbrev, by = "state")
 
 #get total num of wilderness areas in each state
 wa_state <- aggregate(
@@ -220,7 +224,7 @@ Column {data-width=200}
 
 ### Introduction
 
-Point to Table 7. Cleaned rows to not include sites that aren't true fish hatchery.
+This data does not include sites that aren't defined as a true fish hatchery. Refer to table 7.
 
 ### Overall U.S. Numbers
 
@@ -231,7 +235,7 @@ Total hatchery land area
 ```{r pct_overall2}
 tags$p(
   style = "font-size:2em; font-weight:600; color:white",
-  sum(state_data$pub_cost), "acres"
+  sum(hatchery_state_data$hatchery_acres), "acres"
 )
 ```
 </div>
@@ -266,10 +270,10 @@ Column {data-width=800}
 ### National Fish Hatcheries by state <span style="font-size:small">(hover over states for info)</span>
 
 ```{r map2, echo=FALSE}
-state_data$hover <- with(state_data, paste0(
+hatchery_state_data$hover <- with(hatchery_state_data, paste0(
   "<span style='font-size:larger;font-weight:bold'>", state, 
-  ": $", pub_cost, "</span><br>", 
-  "<b>Total amount spent per acre of refuge land: $</b> ", dollar_acre
+  ":", num_of_hatchery , "</span><br>", 
+  "<b>Total amount of hatchery acre per acre of refuge land: </b> ", hatchery_acres
 ))
 
 g <- list(
@@ -280,15 +284,15 @@ g <- list(
 )
   
 renderPlotly({
-  plot_geo(state_data, locationmode = 'USA-states', hoverlabel = "none") %>%
+  plot_geo(hatchery_state_data, locationmode = 'USA-states', hoverlabel = "none") %>%
     add_trace(
-      z = ~pub_cost, 
+      z = ~hatchery_acres, 
       text = ~hover,
       locations = ~state_abb,
-      color = ~pub_cost, 
+      color = ~hatchery_acres, 
       colors = 'YlOrRd'
     ) %>%
-    colorbar(title = "Amount Spent") %>%
+    colorbar(title = "Acres") %>%
     layout(geo = g)
 })
 ```

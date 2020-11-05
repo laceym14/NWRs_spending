@@ -135,7 +135,7 @@ Column {data-width=200, .tabset}
 
 ### Introduction
 
-[The U.S. Fish and Wildlife Service](https://www.fws.gov/) provides expenditures data reports each year in 59 pages of dense PDFs. We have taken the time to extract the 2019 Annual Lands Report data and make this information readily available. (Data from the [U.s. Fish and Wildlife Service](https://www.fws.gov/refuges/land/PDF/2019_Annual_Report_Data_Tables(508-Compliant).pdf), as of 9/30/2019).
+[The U.S. Fish and Wildlife Service](https://www.fws.gov/) provides expenditures data reports each year in 59 pages of dense PDFs. We have taken the time to extract the 2019 Annual Lands Report data and make this information readily available. (Data from the [U.S. Fish and Wildlife Service](https://www.fws.gov/refuges/land/PDF/2019_Annual_Report_Data_Tables(508-Compliant).pdf), as of 9/30/2019).
 
 
 ### Overall U.S. Numbers
@@ -146,7 +146,7 @@ Total refuge land area
 ```{r pct_overall}
 tags$p(
   style = "font-size:2em; font-weight:600; color:white",
-  sum(state_data$pub_cost), "acres"
+  sum(state_data$total_acres), "acres"
 )
 ```
 </div>

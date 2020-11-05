@@ -88,6 +88,8 @@ hatchery_state <- aggregate(
   FUN = function(x) length(unique(x))
 )
 
+
+
 #get total acres of hatchery in each state
 total_hatchery_acres <- aggregate(
   fh$total_acres ~ fh$state,
@@ -384,7 +386,7 @@ Add pie chart of all non-monument areas and then monument areas - show vast majo
 ### Overall U.S. Numbers
 
 <div style='padding:3px; margin-bottom: 12px; background-color:#FF8400; color:white; border-radius:2px; font-size: 1.2em'>
-Total refuge land area
+Total monument acres
 ```{r pct_overall4}
 tags$p(
   style = "font-size:2em; font-weight:600; color:white",
@@ -434,15 +436,21 @@ Column {data-width=800, .tabset}
 
 
 
-### Non-monument areas to monument areas
+### Monument areas in NWRS to monument areas outside of NWRS
+
+```{r piechart,echo = FALSE}
+
+
+```
 
 
 
 
-Data and Background (or More...)
+
+Data
 =======================================================================
 
-Column {data-width=1000}
+Column {data-width=1000, .tabset}
 -----------------------------------------------------------------------
 
 ### Data
@@ -483,8 +491,7 @@ NWRS_refined table in OSF... but keep separate RDS files to pull data for app
 #  })
 #)
 ```
-Column {data-width=1000}
------------------------------------------------------------------------
+
 
 ### Background
 

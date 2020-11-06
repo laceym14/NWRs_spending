@@ -224,9 +224,9 @@ Column {data-width=800}
 
 ```{r map, echo=FALSE}
 state_data$hover <- with(state_data, paste0(
-  "<span style='font-size:larger;font-weight:bold'>", state, 
+  "<span style='font-size:larger;font-weight:bold'>", "Total Spending in ", state, 
   ": $", pub_cost, "</span><br>", 
-  "<b>Total amount spent per acre of refuge land: $</b> ", dollar_acre
+  "<b>Total amount spent per acre of refuge land: $</b>", dollar_acre
 ))
 
 g <- list(
@@ -311,8 +311,8 @@ Column {data-width=800}
 
 ```{r map2, echo=FALSE}
 hatchery_state_data$hover <- with(hatchery_state_data, paste0(
-  "<span style='font-size:larger;font-weight:bold'>", state, 
-  ":", num_of_hatchery
+  "<span style='font-size:larger;font-weight:bold'>", "# Hatcheries in ", state, 
+  ": ", num_of_hatchery
 ))
 
 g <- list(
@@ -331,7 +331,7 @@ renderPlotly({
       color = ~hatchery_acres, 
       colors = 'YlOrRd'
     ) %>%
-    colorbar(title = "Acres") %>%
+    colorbar(title = "Hatchery Total Acreage") %>%
     layout(geo = g)
 })
 ```
@@ -384,7 +384,7 @@ Column {data-width=800}
 
 ```{r map3, echo=FALSE}
 wild_state_data$hover <- with(wild_state_data, paste0(
-  "<span style='font-size:larger;font-weight:bold'>", state, 
+  "<span style='font-size:larger;font-weight:bold'>", "# Wilderness Areas in ", state, 
   ": ", wilderness_count, "</span><br>", 
   "<b>Total amount of wilderness acre in refuge land: </b> ", wild_acres
 ))
@@ -405,7 +405,7 @@ renderPlotly({
       color = ~wild_acres, 
       colors = 'YlOrRd'
     ) %>%
-    colorbar(title = "Acres") %>%
+    colorbar(title = "Wilderness Area Total Acreage") %>%
     layout(geo = g)
 })
 ```

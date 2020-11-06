@@ -262,7 +262,9 @@ Column {data-width=200}
 
 ### Introduction
 
-Number of hatcheries in each state (if any) and total acres. This data does not include sites that aren't defined as a true fish hatchery. Refer to table 7.
+Number of hatcheries in each state (if any) and total acres.
+
+_This data does not include sites that aren't defined as a true fish hatchery. Refer to table 7._
 
 ### Overall U.S. Numbers
 

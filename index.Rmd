@@ -167,11 +167,11 @@ tags$p(
 <!-- <br> -->
 
 <div style='padding-left:5px; padding-right:50px;'>
-\# Acres Aquired by other agencies (the US Department of Energy, etc.)
+\# Acres acquired by other agencies (the US Department of Energy, etc.)
 ```{r n_intra}
 tags$p(
   style = "font-size:1.7em; font-weight:700;",
-  sum(state_data$other_total_acres)
+  sum(state_data$other_total_acres), "acres"
 )
 ```
 
@@ -313,7 +313,7 @@ renderPlotly({
 Wilderness Areas
 =======================================================================
 
-Column {data-width=200, .tabset}
+Column {data-width=200}
 -----------------------------------------------------------------------
 
 ### Introduction
@@ -336,12 +336,12 @@ tags$p(
 <!-- <br> -->
 
 <div style='padding-left:5px; padding-right:50px;'>
-\# Acres Aquired by other agencies (the US Department of Energy, etc.)
+\
 
 
 <hr>
 
-Total spending FY 2019 
+
 
 </div>
 

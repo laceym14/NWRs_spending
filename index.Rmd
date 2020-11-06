@@ -76,9 +76,19 @@ acres <- aggregate(
   FUN = sum)
 names(acres) <- c("state", "total_acres")
 
+#get acres aquired by other agencies 
+acres_by_other <- aggregate(
+  dat$pub_acq_other_fed_secondary ~ dat$state_territory,
+  FUN = sum)
+names(acres_by_other) <- c("state", "other_total_acres")
+
 
 # Join acres to state_data
 state_data <- left_join(state_data, acres, by = "state")
+
+# join acres by other to state_data
+state_data <- left_join(state_data, acres_by_other, by = "state")
+
 
 # Add column to calculate dollars spent per acre in each state and round to two decimal places
 state_data$dollar_acre <- format(round(state_data$pub_cost / state_data$total_acres, 2), nsmall = 2)
@@ -161,7 +171,7 @@ tags$p(
 ```{r n_intra}
 tags$p(
   style = "font-size:1.7em; font-weight:700;",
-  sum(state_data$pub_cost)
+  sum(state_data$other_total_acres)
 )
 ```
 
@@ -366,7 +376,7 @@ renderPlotly({
       color = ~wild_acres, 
       colors = 'YlOrRd'
     ) %>%
-    colorbar(title = "Acre") %>%
+    colorbar(title = "Acres") %>%
     layout(geo = g)
 })
 ```

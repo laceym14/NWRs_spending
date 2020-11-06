@@ -262,7 +262,7 @@ Column {data-width=200}
 
 ### Introduction
 
-This data does not include sites that aren't defined as a true fish hatchery. Refer to table 7.
+Number of hatcheries in each state (if any) and total acres. This data does not include sites that aren't defined as a true fish hatchery. Refer to table 7.
 
 ### Overall U.S. Numbers
 
@@ -310,8 +310,7 @@ Column {data-width=800}
 ```{r map2, echo=FALSE}
 hatchery_state_data$hover <- with(hatchery_state_data, paste0(
   "<span style='font-size:larger;font-weight:bold'>", state, 
-  ":", num_of_hatchery , "</span><br>", 
-  "<b>Total amount of hatchery acre per acre of refuge land: </b> ", hatchery_acres
+  ":", num_of_hatchery
 ))
 
 g <- list(

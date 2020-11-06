@@ -145,12 +145,7 @@ wild_state_data <- left_join(wa_state, acres3, by = "state")
 wild_state_data <- left_join(wild_state_data, st_abbrev, by = "state")
 
 
-#get number of national monument
-
-
-#get total acre in each national monument
-
-
+#get total acre of national monuments in the US
 
 
 

@@ -76,18 +76,27 @@ acres <- aggregate(
   FUN = sum)
 names(acres) <- c("state", "total_acres")
 
-#get acres aquired by other agencies 
+# get acres acquired by other agencies - primary jurisdiction
+acres_by_other_primary <- aggregate(
+  dat$pub_acq_other_fed_primary ~ dat$state_territory,
+  FUN = sum)
+names (acres_by_other_primary) <- c("state", "other_total_primary_acres")
+
+#get acres aquired by other agencies - secondary jurisdiction 
 acres_by_other <- aggregate(
   dat$pub_acq_other_fed_secondary ~ dat$state_territory,
   FUN = sum)
-names(acres_by_other) <- c("state", "other_total_acres")
+names(acres_by_other) <- c("state", "other_total_secondary_acres")
 
 
 # Join acres to state_data
 state_data <- left_join(state_data, acres, by = "state")
 
-# join acres by other to state_data
+# join acres by other - secondary to state_data
 state_data <- left_join(state_data, acres_by_other, by = "state")
+
+#join acres by other - primary to state_data
+state_data <- left_join(state_data, acres_by_other_primary, by = "state")
 
 
 # Add column to calculate dollars spent per acre in each state and round to two decimal places
@@ -106,6 +115,7 @@ total_hatchery_acres <- aggregate(
   FUN = sum
 )
 names (total_hatchery_acres) <- c("state", "hatchery_acres")
+
 
 # join datasets into one
 hatchery_state_data <- left_join(total_hatchery_acres, hatchery_state, by = "state")
@@ -134,7 +144,12 @@ wild_state_data <- left_join(wa_state, acres3, by = "state")
 #join state abbreviations into wild_state_data
 wild_state_data <- left_join(wild_state_data, st_abbrev, by = "state")
 
-#get total acre in each national monument under the NWRS 
+
+#get number of national monument
+
+
+#get total acre in each national monument
+
 
 
 
@@ -144,7 +159,7 @@ wild_state_data <- left_join(wild_state_data, st_abbrev, by = "state")
 Refuge System
 =======================================================================
 
-Column {data-width=200, .tabset}
+Column {data-width=220, .tabset}
 -----------------------------------------------------------------------
 
 ### Introduction
@@ -167,17 +182,30 @@ tags$p(
 <!-- <br> -->
 
 <div style='padding-left:5px; padding-right:50px;'>
-\# Acres acquired by other agencies (the US Department of Energy, etc.)
+ 
+Acres acquired by other agencies (the U.S. Department of Energy, etc.) for which the Service has *some* management responsibilities:
 ```{r n_intra}
 tags$p(
   style = "font-size:1.7em; font-weight:700;",
-  sum(state_data$other_total_acres), "acres"
+  sum(state_data$other_total_secondary_acres), "acres"
 )
 ```
 
 <hr>
 
-Total spending FY 2019 
+Acres acquired by other agencies and transferred to the Service:
+```{r n_intro}
+tags$p(
+  style = "font-size:1.7em; font-weight:700;",
+  sum(state_data$other_total_primary_acres), "acres"
+)
+
+```
+
+
+<hr>
+
+Total FY 2019 spending
 ```{r n_list}
 tags$p(
   style = "font-size:1.7em; font-weight:700;",

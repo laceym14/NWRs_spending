@@ -145,7 +145,7 @@ wild_state_data <- left_join(wa_state, acres3, by = "state")
 wild_state_data <- left_join(wild_state_data, st_abbrev, by = "state")
 
 
-#get total acre of national monuments in the US
+#get total num of national monuments in the US
 
 
 
@@ -470,6 +470,26 @@ Column {data-width=800, .tabset}
 
 ```{r bargraph, echo = FALSE}
 
+nm <- read.csv("table_10.csv")
+
+library(plotly)
+
+x <- c('Hanford Reach National Monument', 'Marianas Trench Marine National Monument', 'Northeast Canyons and Seamunts Marine National Monument', ' Pacific Remote Islands Marine National Monument', 'Papahanaumokuakea Marine National Monument', 'Rose Atoll Marine National Monument', 'World War II Valor in the Pacific National Monument')
+y <- c(194450.93, 61077668, 3144320, 313941851.32, 372848597, 8609045, 6304)
+
+data <- data.frame(x,y)
+
+
+fig <- plot_ly(data, x = ~x, y = ~y, type = 'bar',
+               marker = list(color = 'rgb(158,202,225)',
+                             line = list(color = 'rgb(8,48,107)', 
+                                         width = 1.5)))
+
+fig <- fig %>% layout(title = "National Monuments Acreage",
+                      xaxis = list(title = ""),
+                      yaxis = list(title = ""))
+
+fig
 
 ```
 

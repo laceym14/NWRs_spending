@@ -152,6 +152,12 @@ natmon_acres <- aggregate(
 )
 names (natmon_acres) <- c("monument", "monument_acres")
 
+# get total acreage per nat mon type
+natmon_type <- aggregate(
+  nm$total_monument_acres ~ nm$unit_name,
+  FUN = sum
+)
+names (natmon_type) <- c("type", "monument_acres")
 ```
 
 Refuge System
@@ -479,7 +485,7 @@ p <- natmon_acres %>%
   plot_ly(
     x= ~natmon_acres$monument, 
     y = ~natmon_acres$monument_acres) %>%
-  add_bars(p, x = ~natmon_acres$monument, y = ~natmon_acres$monument_acres, data = ~nm, inherit = TRUE)
+  add_bars(p, x = ~natmon_acres$monument, y = ~natmon_acres$monument_acres, data = ~natmon_acres, inherit = TRUE)
 })
 
 
@@ -493,9 +499,9 @@ p <- natmon_acres %>%
 ```{r piechart,echo=FALSE}
  
 renderPlotly({
-plot_ly(natmon_nwrs, labels = ~ natmon_nwrs$monument_in_nwrs, values = ~ natmon_nwrs$total_monument_acres, type = 'pie',
+plot_ly(natmon_type, labels = ~ natmon_type$type, values = ~ natmon_type$monument_acres, type = 'pie',
         textposition = 'inside', textinfo = 'label+acres') %>%
-  layout (title='Nat Mon in wildlife refuge', 
+  layout (title='National Monument Types', 
           showlegend = TRUE)
 })
 

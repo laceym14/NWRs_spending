@@ -36,8 +36,7 @@ dat <- read.csv("NWRS_refined.csv")
 nm <- read.csv("table_10.csv")
 fh <- read.csv("table_7.csv")
 wa <- read.csv("table_8.csv")
-natmon_nwrs <- read.csv("table_10_nwrs_unit.csv")
-natmon_non_nwrs <- read.csv("table_10_non_unit.csv")
+
 
 
 dat <- readRDS(file = "NWRS_refined.rds")
@@ -146,9 +145,12 @@ wild_state_data <- left_join(wa_state, acres3, by = "state")
 wild_state_data <- left_join(wild_state_data, st_abbrev, by = "state")
 
 
-#get total num of national monuments in the US
-
-
+#get total acreage of national monuments
+natmon_acres <- aggregate(
+  nm$total_monument_acres ~ nm$monument,
+  FUN = sum
+)
+names (natmon_acres) <- c("monument", "monument_acres")
 
 ```
 
@@ -431,7 +433,7 @@ Total monument acres
 ```{r pct_overall4}
 tags$p(
   style = "font-size:2em; font-weight:600; color:white",
-  sum(state_data$pub_cost), "acres"
+  sum(natmon_acres$monument_acres), "acres"
 )
 ```
 </div>
@@ -472,12 +474,12 @@ Column {data-width=800, .tabset}
 ```{r bargraph, echo=FALSE}
 
 renderPlotly({
-p <- nm %>%
-  count(nm$unit_name) %>%
+p <- natmon_acres %>%
+  count(natmon_acres$monument) %>%
   plot_ly(
-    x= ~nm$unit_name, 
-    y = ~nm$total_monument_acres) %>%
-  add_bars(p, x = ~nm$unit_name, y = ~nm$total_monument_acres, data = ~nm, inherit = TRUE)
+    x= ~natmon_acres$monument, 
+    y = ~natmon_acres$monument_acres) %>%
+  add_bars(p, x = ~natmon_acres$monument, y = ~natmon_acres$monument_acres, data = ~nm, inherit = TRUE)
 })
 
 

@@ -429,8 +429,9 @@ Column {data-width=200}
 
 ### Introduction
 
-Point to Table 10. Visualize with a bar graph sorting monuments from smallest to largest? No map (or may small inset map at most)
-Add pie chart of all non-monument areas and then monument areas - show vast majority of refuge acreage are in the national monuments.
+Graph shows total acreage per National Monument. The pie chart shows monument acres within refuge boundary (NWRS Managed Monument Area) compared to acres outside boundary (Monument Area administered Under other authority).
+
+_Refer to Table 10._ 
 
 
 ### Overall U.S. Numbers

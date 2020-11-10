@@ -438,8 +438,8 @@ tags$p(
 <!-- <br> -->
 
 <div style='padding-left:5px; padding-right:50px;'>
-\# Acres Aquired by other agencies (the US Department of Energy, etc.)
-```{r n_intra4}
+
+```{r n_intra4, eval = FALSE}
 tags$p(
   style = "font-size:1.7em; font-weight:700;",
   sum(state_data$pub_cost)
@@ -448,8 +448,8 @@ tags$p(
 
 <hr>
 
-Total spending FY 2019 
-```{r n_list4}
+ 
+```{r n_list4, eval = FALSE}
 tags$p(
   style = "font-size:1.7em; font-weight:700;",
   "$", sum(state_data$pub_cost)

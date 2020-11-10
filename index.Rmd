@@ -36,7 +36,8 @@ dat <- read.csv("NWRS_refined.csv")
 nm <- read.csv("table_10.csv")
 fh <- read.csv("table_7.csv")
 wa <- read.csv("table_8.csv")
-
+natmon_nwrs <- read.csv("table_10_nwrs_unit.csv")
+natmon_non_nwrs <- read.csv("table_10_non_unit.csv")
 
 
 dat <- readRDS(file = "NWRS_refined.rds")
@@ -468,28 +469,17 @@ Column {data-width=800, .tabset}
 
 
 
-```{r bargraph, echo = FALSE}
+```{r bargraph, echo=FALSE}
 
-nm <- read.csv("table_10.csv")
+renderPlotly({
+p <- nm %>%
+  count(nm$unit_name) %>%
+  plot_ly(
+    x= ~nm$unit_name, 
+    y = ~nm$total_monument_acres) %>%
+  add_bars(p, x = ~nm$unit_name, y = ~nm$total_monument_acres, data = ~nm, inherit = TRUE)
+})
 
-library(plotly)
-
-x <- c('Hanford Reach National Monument', 'Marianas Trench Marine National Monument', 'Northeast Canyons and Seamunts Marine National Monument', ' Pacific Remote Islands Marine National Monument', 'Papahanaumokuakea Marine National Monument', 'Rose Atoll Marine National Monument', 'World War II Valor in the Pacific National Monument')
-y <- c(194450.93, 61077668, 3144320, 313941851.32, 372848597, 8609045, 6304)
-
-data <- data.frame(x,y)
-
-
-fig <- plot_ly(data, x = ~x, y = ~y, type = 'bar',
-               marker = list(color = 'rgb(158,202,225)',
-                             line = list(color = 'rgb(8,48,107)', 
-                                         width = 1.5)))
-
-fig <- fig %>% layout(title = "National Monuments Acreage",
-                      xaxis = list(title = ""),
-                      yaxis = list(title = ""))
-
-fig
 
 ```
 
@@ -498,8 +488,14 @@ fig
 
 ### Monument areas in NWRS to monument areas outside of NWRS
 
-```{r piechart,echo = FALSE}
-
+```{r piechart,echo=FALSE}
+ 
+renderPlotly({
+plot_ly(natmon_nwrs, labels = ~ natmon_nwrs$monument_in_nwrs, values = ~ natmon_nwrs$total_monument_acres, type = 'pie',
+        textposition = 'inside', textinfo = 'label+acres') %>%
+  layout (title='Nat Mon in wildlife refuge', 
+          showlegend = TRUE)
+})
 
 ```
 

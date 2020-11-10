@@ -475,6 +475,22 @@ tags$p(
 Column {data-width=800, .tabset}
 -----------------------------------------------------------------------
 
+### Monument areas within NWRS and outside
+
+```{r piechart,echo=FALSE}
+ 
+renderPlotly({
+plot_ly(natmon_type, labels = ~ natmon_type$type, values = ~ natmon_type$monument_acres, type = 'pie',
+        textposition = 'inside', textinfo = 'label+acres') %>%
+  layout (title='National Monument Types and Acres', 
+          showlegend = TRUE)
+})
+
+```
+
+
+
+
 ### Monument acreage size <span style="font-size:small">(smallest to largest)</span>
 
 ```{r bargraph2, echo=FALSE}
@@ -491,35 +507,9 @@ natmon_acres %>%
 
 
 
-```{r bargraph, eval = FALSE}
-
-renderPlotly({
-p <- natmon_acres %>%
-  count(natmon_acres$monument) %>%
-  plot_ly(
-    x= ~natmon_acres$monument, 
-    y = ~natmon_acres$monument_acres) %>%
-  add_bars(p, x = ~natmon_acres$monument, y = ~natmon_acres$monument_acres, data = ~natmon_acres, inherit = TRUE)
-})
-
-
-```
 
 
 
-
-### Monument areas within NWRS and outside
-
-```{r piechart,echo=FALSE}
- 
-renderPlotly({
-plot_ly(natmon_type, labels = ~ natmon_type$type, values = ~ natmon_type$monument_acres, type = 'pie',
-        textposition = 'inside', textinfo = 'label+acres') %>%
-  layout (title='National Monument Types and Acres', 
-          showlegend = TRUE)
-})
-
-```
 
 
 

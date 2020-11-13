@@ -164,12 +164,14 @@ names (natmon_type) <- c("type", "monument_acres")
 Refuge System
 =======================================================================
 
-Column {data-width=220, .tabset}
+Column {data-width=220}
 -----------------------------------------------------------------------
 
 ### Introduction
 
-[The U.S. Fish and Wildlife Service](https://www.fws.gov/) provides expenditure data reports each year in 59 pages of dense PDFs. We have taken the time to extract the 2019 Annual Lands Report data and make this information readily available. (Data from the [U.S. Fish and Wildlife Service](https://www.fws.gov/refuges/land/PDF/2019_Annual_Report_Data_Tables(508-Compliant).pdf), as of 9/30/2019).
+[The U.S. Fish and Wildlife Service](https://www.fws.gov/) provides expenditure data reports each year in 59 pages of dense PDFs. We have taken the time to extract the 2019 Annual Lands Report data and make this information readily available. (Data from the [U.S. Fish and Wildlife Service](https://www.fws.gov/refuges/land/PDF/2019_Annual_Report_Data_Tables(508-Compliant).pdf), as of 9/30/2019). 
+
+If you're interested in the Refuge System, take a look at our [story map](https://defenders-cci.org/publication/esas-on-nwrs/) or [report](https://defenders-cci.org/publication/esas-on-nwrs/) and see the significance they have on imperiled species! 
 
 
 ### Overall U.S. Numbers
@@ -179,7 +181,7 @@ Column {data-width=220, .tabset}
 Total refuge land area
 ```{r pct_overall}
 tags$p(
-  style = "font-size:2em; font-weight:600; color:white",
+  style = "font-size:1.5em; font-weight:600; color:white",
   sum(state_data$total_acres), "acres"
 )
 ```

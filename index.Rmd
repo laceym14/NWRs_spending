@@ -7,7 +7,6 @@ output:
     df_print: paged
     navbar:
     - {title: "CCI", align: right, href: "https://defenders-cci.org", target: "_blank"}
-    - {title: "", icon: "fa-question-circle fa-lg", align: right, href: "mailto:jmalcom@defenders.org?subject=ESA intrastate species"}
     - {title: "", icon: "fa-github fa-lg", align: right, href: "https://github.com/laceym14/NWRs_spending", target: "_blank"}
 runtime: shiny
 ---
@@ -102,6 +101,8 @@ state_data <- left_join(state_data, acres_by_other_primary, by = "state")
 # Add column to calculate dollars spent per acre in each state and round to two decimal places
 state_data$dollar_acre <- format(round(state_data$pub_cost / state_data$total_acres, 2), nsmall = 2)
 
+
+
 # Get number of fish hatchery in each state
 hatchery_state <- aggregate(
   fh$unit_name ~ fh$state, 
@@ -115,6 +116,7 @@ total_hatchery_acres <- aggregate(
   FUN = sum
 )
 names (total_hatchery_acres) <- c("state", "hatchery_acres")
+
 
 
 # join datasets into one
@@ -184,6 +186,8 @@ tags$p(
   style = "font-size:1.5em; font-weight:600; color:white",
   sum(state_data$total_acres), "acres"
 )
+
+
 ```
 </div>
 <!-- <br> -->
@@ -284,6 +288,7 @@ tags$p(
   style = "font-size:1.5em; font-weight:600; color:white",
   sum(hatchery_state_data$hatchery_acres), "ac."
 )
+
 ```
 </div>
 <!-- <br> -->
@@ -502,7 +507,7 @@ natmon_acres %>%
   mutate(natmon_acres$monument) %>%
 
 
-  plot_ly(x = ~natmon_acres$monument, y = ~natmon_acres$monument_acres, color = ~natmon_acres$monument, type = "bar", colors = "viridis")
+  plot_ly(x = ~natmon_acres$monument_acres, y = ~natmon_acres$monument, type = "bar", orientation = 'h')
 
 
 ```

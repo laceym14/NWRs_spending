@@ -281,8 +281,8 @@ _This data does not include sites that aren't defined as a true fish hatchery. R
 Total hatchery land area
 ```{r pct_overall2}
 tags$p(
-  style = "font-size:2em; font-weight:600; color:white",
-  sum(hatchery_state_data$hatchery_acres), "acres"
+  style = "font-size:1.5em; font-weight:600; color:white",
+  sum(hatchery_state_data$hatchery_acres), "ac."
 )
 ```
 </div>
@@ -365,8 +365,8 @@ _This information uses data from Table 8._
 Total wilderness area
 ```{r pct_overall3}
 tags$p(
-  style = "font-size:2em; font-weight:600; color:white",
-  sum(wa$wilderness_acres), "acres"
+  style = "font-size:1.5em; font-weight:600; color:white",
+  sum(wa$wilderness_acres), "ac."
 )
 ```
 
@@ -442,8 +442,8 @@ _Refer to Table 10._
 Total monument acres
 ```{r pct_overall4}
 tags$p(
-  style = "font-size:2em; font-weight:600; color:white",
-  sum(natmon_acres$monument_acres), "acres"
+  style = "font-size:1.5em; font-weight:600; color:white",
+  sum(natmon_acres$monument_acres), "ac."
 )
 ```
 </div>

@@ -507,7 +507,9 @@ natmon_acres %>%
   mutate(natmon_acres$monument) %>%
 
 
-  plot_ly(x = ~natmon_acres$monument_acres, y = ~natmon_acres$monument, type = "bar", orientation = 'h')
+  plot_ly(x = ~natmon_acres$monument_acres, y = ~natmon_acres$monument, type = "bar", color = 'YlOrRd', orientation = 'h', x_scale_type="log") 
+
+
 
 
 ```
@@ -525,7 +527,7 @@ natmon_acres %>%
 Data
 =======================================================================
 
-Column {data-width=1000, .tabset}
+Column {data-width=200, .tabset}
 -----------------------------------------------------------------------
 
 ### Data

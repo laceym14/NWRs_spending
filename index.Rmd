@@ -361,6 +361,8 @@ Column {data-width=200}
 
 The following map identifies the designated wilderness areas within each state and includes total wilderness acreage in a NWR. The refuges are included under the refuge system tab. 
 
+
+
 _This information uses data from Table 8._
 
 
@@ -507,7 +509,7 @@ natmon_acres %>%
   mutate(natmon_acres$monument) %>%
 
 
-  plot_ly(x = ~natmon_acres$monument_acres, y = ~natmon_acres$monument, type = "bar", color = 'YlOrRd', orientation = 'h', x_scale_type="log") 
+  plot_ly(x = natmon_acres$monument_acres, y = natmon_acres$monument, type = "bar", color = 'YlOrRd', orientation = 'h', x_scale_type="log") 
 
 
 
@@ -527,7 +529,7 @@ natmon_acres %>%
 Data
 =======================================================================
 
-Column {data-width=200, .tabset}
+Column {data-width=200}
 -----------------------------------------------------------------------
 
 ### Data
@@ -569,7 +571,8 @@ NWRS_refined table in OSF... but keep separate RDS files to pull data for app
 #)
 ```
 
-
+Column {data-width=200}
+-----------------------------------------------------------------------
 ### Background
 
 National Wildlife Refuges (NWRs) include the Refuge System lands, waters, and interests administered by Fish and Wildlife Service as wildlife refuges, wildlife ranges, wildlife monument areas, game preserves, and conservation areas. 

@@ -105,7 +105,7 @@ state_data <- left_join(state_data, acres_by_other_primary, by = "state")
 # Add column to calculate dollars spent per acre in each state and round to two decimal places
 state_data$dollar_acre <- format(round(state_data$pub_cost / state_data$total_acres, 2), nsmall = 2)
 
-
+# add column to include commas
 
 # Get number of fish hatchery in each state
 hatchery_state <- aggregate(
@@ -205,7 +205,7 @@ tags$p(
 
 <div style='padding-left:5px; padding-right:50px;'>
  
-Acres acquired by other agencies (the U.S. Department of Energy, etc.) for which the Service has *some* management responsibilities:
+Acres acquired by other agencies (DOE, AF, R, etc.) for which the Service has *some* management responsibilities:
 ```{r n_intra}
 tags$p(
   style = "font-size:1.5em; font-weight:700;",
@@ -215,7 +215,7 @@ tags$p(
 
 <hr>
 
-Acres acquired by other agencies and transferred to the Service:
+Acres acquired by other agencies and transferred to the Service to use as wildlife habitat:
 ```{r n_intro}
 tags$p(
   style = "font-size:1.5em; font-weight:700;",
@@ -464,6 +464,8 @@ The following graph shows total acreage per National Monument. The square waffle
 <div style='padding:3px; margin-bottom: 12px; background-color:#FF8400; color:white; border-radius:2px; font-size: 1.2em'>
 Total monument acres
 ```{r pct_overall4, echo=FALSE}
+
+
 tags$p(
   style = "font-size:1.5em; font-weight:600; color:white",
   sum(natmon_acres$monument_acres), "ac."
@@ -506,13 +508,13 @@ Column {data-width=800, .tabset}
 
 ```{r, square pie chart, echo=FALSE}
 
-parts <- c(2.52, 97.5)
+parts <- c(2, 98)
 waffle(parts, rows=10)
 
 
 ```
 
-### Monument size (acres) <span style="font-size:small">(smallest to largest)</span>
+### Monument size (acres) <span style="font-size:small"></span>
 
 ```{r bargraph2, echo=FALSE}
 

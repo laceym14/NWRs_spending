@@ -181,7 +181,8 @@ Column {data-width=220}
 
 ### Introduction
 
-[The U.S. Fish and Wildlife Service](https://www.fws.gov/) provides expenditure data reports each year in 59 pages of dense PDFs. We have taken the time to extract the 2019 Annual Lands Report data and make this information readily available. (Data from the [U.S. Fish and Wildlife Service](https://www.fws.gov/refuges/land/PDF/2019_Annual_Report_Data_Tables(508-Compliant).pdf), as of 9/30/2019). 
+[The U.S. Fish and Wildlife Service](https://www.fws.gov/) provides expenditure data reports each year in 59 pages of dense PDFs. We have taken the time to extract the 2019 Annual Lands Report data and make this information readily available. (Data from the [U.S. Fish and Wildlife Service](https://www.fws.gov/refuges/land/PDF/2019_Annual_Report_Data_Tables(508-Compliant).pdf), as of 9/30/2019). National Wildlife Refuges (NWRs) include the Refuge System lands, waters, and interests administered by Fish and Wildlife Service as wildlife refuges, wildlife ranges, wildlife monument areas, game preserves, and conservation areas. 
+
 
 If you're interested in the Refuge System, take a look at our [story map](https://defenders-cci.org/publication/esas-on-nwrs/) or [report](https://defenders-cci.org/publication/esas-on-nwrs/) and see the significance they have on imperiled species! 
 
@@ -283,9 +284,9 @@ Column {data-width=200}
 
 ### Introduction
 
-Number of hatcheries in each state (if any) and total acres.
+National Fish Hatcheries are National Fish Hatchery System lands and waters where fish are raised. The following map shows number of hatcheries in each state (if any) and total acres.
 
-_This data does not include sites that aren't defined as a true fish hatchery. Refer to table 7._
+
 
 ### Overall U.S. Numbers
 
@@ -298,6 +299,8 @@ tags$p(
   style = "font-size:1.5em; font-weight:600; color:white",
   sum(hatchery_state_data$hatchery_acres), "ac."
 )
+
+#This data does not include sites that aren't defined as a true fish hatchery. Refer to table 7.
 
 ```
 </div>
@@ -369,11 +372,11 @@ Column {data-width=200}
 
 ### Introduction
 
-The following map identifies the designated wilderness areas within each state and includes total wilderness acreage in a NWR. The refuges are included under the refuge system tab. 
+The following map identifies the designated wilderness areas within each state and includes total wilderness acreage in a NWR. The refuges are included under the refuge system tab. Wilderness Areas in National Wildlife Refuges identifies the Congressionally designated wilderness areas within national wildlife refuges and one national fish hatchery. These are also included in the NWR map. 
 
 
 
-_This information uses data from Table 8._
+
 
 
 ### Overall U.S. Numbers
@@ -385,6 +388,8 @@ tags$p(
   style = "font-size:1.5em; font-weight:600; color:white",
   sum(wa$wilderness_acres), "ac."
 ) 
+
+# This information uses data from Table 8.
 
 ```
 
@@ -449,9 +454,9 @@ Column {data-width=200}
 
 ### Introduction
 
-Graph shows total acreage per National Monument. The pie chart shows monument acres within refuge boundary (NWRS Managed Monument Area) compared to acres outside boundary (Monument Area administered Under other authority).
+The following graph shows total acreage per National Monument. The square waffle chart shows monument acres within refuge boundary (NWRS Managed Monument Area) compared to acres outside boundary (Monument Area administered Under other authority).
 
-_Refer to Table 10._
+
 
 
 ### Overall U.S. Numbers
@@ -464,6 +469,7 @@ tags$p(
   sum(natmon_acres$monument_acres), "ac."
 )
 
+#_Refer to Table 10._
 
 ```
 </div>
@@ -496,7 +502,7 @@ tags$p(
 Column {data-width=800, .tabset}
 -----------------------------------------------------------------------
 
-### monument areas within NWRS boundaries compared to outside managemnt
+### Monument areas within NWRS boundaries
 
 ```{r, square pie chart, echo=FALSE}
 
@@ -554,7 +560,7 @@ plot_ly(natmon_type, labels = ~ natmon_type$type, values = ~ natmon_type$monumen
 Data
 =======================================================================
 
-Column {data-width=200}
+Column {data-width=250}
 -----------------------------------------------------------------------
 ### Background
 
@@ -562,19 +568,14 @@ Column {data-width=200}
 include_graphics("Example.png")
 </div>
 
-National Wildlife Refuges (NWRs) include the Refuge System lands, waters, and interests administered by Fish and Wildlife Service as wildlife refuges, wildlife ranges, wildlife monument areas, game preserves, and conservation areas. 
-
-National Fish Hatcheries are National Fish Hatchcery System lands and waters where fish are raised. 
-
-Wilderness Areas in National Wildlife Refuges identifies the Congressionally designated wilderness areas within national wildlife refuges and one national fish hatchery. These are also included in the NWR map. 
 
 Discuss breakdown of refuge land: refuges, hatcheries, wilderness areas, national monuments
 
-[TEXT PULLED FROM STORYMAP] As the first nation to develop a formal network of protected areas, the US has led the way in sharing the landscape with our wildlife neighbors. Today, our National Wildlife Refuge System includes some 568 national wildlife refuges, dedicating 95 million acres of land and 760 million acres of submerged lands and waters as a sanctuary for our nation's wildlife. Every state and US territory has at least one wildlife refuge, and most major US cities are within an hour's drive of one.
+As the first nation to develop a formal network of protected areas, the US has led the way in sharing the landscape with our wildlife neighbors. Today, our National Wildlife Refuge System includes some 568 national wildlife refuges, dedicating 95 million acres of land and 760 million acres of submerged lands and waters as a sanctuary for our nation's wildlife. Every state and US territory has at least one wildlife refuge, and most major US cities are within an hour's drive of one.
 
 While their awe-inspiring beauty attracts many human visitors, wildlife comes first on our refuges. The mission of the refuge system goes hand in hand with the goals of the Endangered Species Act (ESA) - the most effective law in the world for saving imperiled species and the ecosystems on which they depend. We have known about the special relationship between the ESA and refuges for decades, but unfortunately there has been no robust tally of how many threatened and endangered species are found on the National Wildlife Refuge System. Defenders of Wildlife and the National Wildlife Refuge Association teamed up to figure it out.
 
-What we found is astounding: 513 ESA-listed species are found or are dependent on at least 444 refuges
+What we found is astounding: 513 ESA-listed species are found or are dependent on at least 444 refuges! Read more about refuges in CCI's [story map](https://defenders-cci.org/publication/esas-on-nwrs/).
 
 
 Column {data-width=200}

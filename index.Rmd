@@ -17,6 +17,10 @@ library(plotly)
 library(rvest)
 library(shiny)
 library(tibble)
+library(ggplot2)
+library(waffle)
+library(scales)
+library(extrafont)
 
 # Convert CSV to RDS
 #dat <- read.csv("NWRS_refined.csv")
@@ -154,12 +158,18 @@ natmon_acres <- aggregate(
 )
 names (natmon_acres) <- c("monument", "monument_acres")
 
+
+
 # get total acreage per nat mon type
 natmon_type <- aggregate(
   nm$total_monument_acres ~ nm$unit_name,
   FUN = sum
 )
 names (natmon_type) <- c("type", "monument_acres")
+
+
+# add decimals
+
 
 ```
 
@@ -184,7 +194,7 @@ Total refuge land area
 ```{r pct_overall}
 tags$p(
   style = "font-size:1.5em; font-weight:600; color:white",
-  sum(state_data$total_acres), "acres"
+  sum(state_data$total_acres), "ac"
 )
 
 
@@ -197,8 +207,8 @@ tags$p(
 Acres acquired by other agencies (the U.S. Department of Energy, etc.) for which the Service has *some* management responsibilities:
 ```{r n_intra}
 tags$p(
-  style = "font-size:1.7em; font-weight:700;",
-  sum(state_data$other_total_secondary_acres), "acres"
+  style = "font-size:1.5em; font-weight:700;",
+  sum(state_data$other_total_secondary_acres), "ac"
 )
 ```
 
@@ -207,8 +217,8 @@ tags$p(
 Acres acquired by other agencies and transferred to the Service:
 ```{r n_intro}
 tags$p(
-  style = "font-size:1.7em; font-weight:700;",
-  sum(state_data$other_total_primary_acres), "acres"
+  style = "font-size:1.5em; font-weight:700;",
+  sum(state_data$other_total_primary_acres), "ac"
 )
 
 ```
@@ -219,7 +229,7 @@ tags$p(
 Total FY 2019 spending
 ```{r n_list}
 tags$p(
-  style = "font-size:1.7em; font-weight:700;",
+  style = "font-size:1.5em; font-weight:700;",
   "$", sum(state_data$pub_cost)
 )
 ```
@@ -374,7 +384,8 @@ Total wilderness area
 tags$p(
   style = "font-size:1.5em; font-weight:600; color:white",
   sum(wa$wilderness_acres), "ac."
-)
+) 
+
 ```
 
 </div>
@@ -433,25 +444,27 @@ renderPlotly({
 National Monuments
 =======================================================================
 
-Column {data-width=200}
+Column {data-width=220}
 -----------------------------------------------------------------------
 
 ### Introduction
 
 Graph shows total acreage per National Monument. The pie chart shows monument acres within refuge boundary (NWRS Managed Monument Area) compared to acres outside boundary (Monument Area administered Under other authority).
 
-_Refer to Table 10._ 
+_Refer to Table 10._
 
 
 ### Overall U.S. Numbers
 
 <div style='padding:3px; margin-bottom: 12px; background-color:#FF8400; color:white; border-radius:2px; font-size: 1.2em'>
 Total monument acres
-```{r pct_overall4}
+```{r pct_overall4, echo=FALSE}
 tags$p(
   style = "font-size:1.5em; font-weight:600; color:white",
   sum(natmon_acres$monument_acres), "ac."
 )
+
+
 ```
 </div>
 <!-- <br> -->
@@ -480,13 +493,27 @@ tags$p(
 
 
 
+Column {data-width=800}
+-----------------------------------------------------------------------
+### monument areas square chart
 
-Column {data-width=800, .tabset}
+```{r, square pie chart, echo=FALSE}
+
+parts <- c(2.52, 97.5)
+waffle(parts, rows=10)
+
+
+```
+
+
+Column {data-width=800}
 -----------------------------------------------------------------------
 
 ### Monument areas within NWRS and outside
 
-```{r piechart,echo=FALSE}
+
+
+```{r piechart,eval=FALSE}
  
 renderPlotly({
 plot_ly(natmon_type, labels = ~ natmon_type$type, values = ~ natmon_type$monument_acres, type = 'pie',
@@ -494,6 +521,7 @@ plot_ly(natmon_type, labels = ~ natmon_type$type, values = ~ natmon_type$monumen
   layout (title='National Monument Types and Acres', 
           showlegend = TRUE)
 })
+
 
 ```
 
@@ -510,7 +538,6 @@ natmon_acres %>%
 
 
   plot_ly(x = natmon_acres$monument_acres, y = natmon_acres$monument, type = "bar", color = 'YlOrRd', orientation = 'h', x_scale_type="log") 
-
 
 
 

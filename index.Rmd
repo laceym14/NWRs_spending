@@ -193,10 +193,16 @@ If you're interested in the Refuge System, take a look at our [story map](https:
 <div style='padding:3px; margin-bottom: 12px; background-color:#FF8400; color:white; border-radius:2px; font-size: 1.2em'>
 Total refuge land area
 ```{r pct_overall}
+
+formatted_number <- formatC(sum(state_data$total_acres), format = "d", big.mark=",")
+
+#assign to a variable
+
 tags$p(
   style = "font-size:1.5em; font-weight:600; color:white",
-  sum(state_data$total_acres), "ac"
+  formatted_number, "acres"
 )
+
 
 
 ```
@@ -207,9 +213,11 @@ tags$p(
  
 Acres acquired by other agencies (DOE, AF, R, etc.) for which the Service has *some* management responsibilities:
 ```{r n_intra}
+formatted_number1 <- formatC(sum(state_data$other_total_secondary_acres), format = "d", big.mark=",")
+
 tags$p(
   style = "font-size:1.5em; font-weight:700;",
-  sum(state_data$other_total_secondary_acres), "ac"
+  formatted_number1, "ac"
 )
 ```
 
@@ -217,9 +225,11 @@ tags$p(
 
 Acres acquired by other agencies and transferred to the Service to use as wildlife habitat:
 ```{r n_intro}
+formatted_number3 <- formatC(sum(state_data$other_total_primary_acres), format = "d", big.mark=",")
+
 tags$p(
   style = "font-size:1.5em; font-weight:700;",
-  sum(state_data$other_total_primary_acres), "ac"
+  formatted_number3, "ac"
 )
 
 ```
@@ -227,8 +237,9 @@ tags$p(
 
 <hr>
 
-Total FY 2019 spending
+Total land purchase cost:
 ```{r n_list}
+
 tags$p(
   style = "font-size:1.5em; font-weight:700;",
   "$", sum(state_data$pub_cost)
@@ -295,9 +306,11 @@ National Fish Hatcheries are National Fish Hatchery System lands and waters wher
 <div style='padding:3px; margin-bottom: 12px; background-color:#FF8400; color:white; border-radius:2px; font-size: 1.2em'>
 Total hatchery land area
 ```{r pct_overall2}
+formatted_number6 <- formatC(sum(hatchery_state_data$hatchery_acres), format = "d", big.mark=",")
+
 tags$p(
   style = "font-size:1.5em; font-weight:600; color:white",
-  sum(hatchery_state_data$hatchery_acres), "ac."
+  formatted_number6, "ac."
 )
 
 #This data does not include sites that aren't defined as a true fish hatchery. Refer to table 7.
@@ -384,9 +397,10 @@ The following map identifies the designated wilderness areas within each state a
 <div style='padding:3px; margin-bottom: 12px; background-color:#FF8400; color:white; border-radius:2px; font-size: 1.2em'>
 Total wilderness area
 ```{r pct_overall3}
+formatted_number8 <- formatC(sum(wa$wilderness_acres), format = "d", big.mark=",")
 tags$p(
   style = "font-size:1.5em; font-weight:600; color:white",
-  sum(wa$wilderness_acres), "ac."
+  formatted_number8, "ac."
 ) 
 
 # This information uses data from Table 8.
@@ -465,10 +479,11 @@ The following graph shows total acreage per National Monument. The square waffle
 Total monument acres
 ```{r pct_overall4, echo=FALSE}
 
+formatted_number9 <- formatC(sum(natmon_acres$monument_acres), format = "d", big.mark=",")
 
 tags$p(
   style = "font-size:1.5em; font-weight:600; color:white",
-  sum(natmon_acres$monument_acres), "ac."
+  formatted_number9, "ac."
 )
 
 #_Refer to Table 10._
@@ -523,7 +538,8 @@ natmon_acres %>%
   mutate(natmon_acres$monument) %>%
 
 
-  plot_ly(x = natmon_acres$monument_acres, y = natmon_acres$monument, type = "bar", color = 'YlOrRd', orientation = 'h') 
+  plot_ly(x = natmon_acres$monument_acres, y = natmon_acres$monument, type = "bar", color = 'YlOrRd', orientation = 'h') %>% 
+  layout(xaxis = list(type="log"))
 
 
 

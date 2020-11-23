@@ -20,7 +20,7 @@ library(tibble)
 library(ggplot2)
 library(waffle)
 library(scales)
-library(extrafont)
+
 
 # Convert CSV to RDS
 #dat <- read.csv("NWRS_refined.csv")
@@ -444,7 +444,7 @@ renderPlotly({
 National Monuments
 =======================================================================
 
-Column {data-width=220}
+Column {data-width=200}
 -----------------------------------------------------------------------
 
 ### Introduction
@@ -493,9 +493,9 @@ tags$p(
 
 
 
-Column {data-width=800}
+Column {data-width=800, .tabset}
 -----------------------------------------------------------------------
-### monument areas square chart
+### monument areas within NWRS boundaries compared to outside managemnt
 
 ```{r, square pie chart, echo=FALSE}
 
@@ -505,11 +505,21 @@ waffle(parts, rows=10)
 
 ```
 
+### Monument size (acres) <span style="font-size:small">(smallest to largest)</span>
 
-Column {data-width=800}
------------------------------------------------------------------------
+```{r bargraph2, echo=FALSE}
 
-### Monument areas within NWRS and outside
+natmon_acres %>%
+  count(natmon_acres$monument) %>%
+  mutate(natmon_acres$monument) %>%
+
+
+  plot_ly(x = natmon_acres$monument_acres, y = natmon_acres$monument, type = "bar", color = 'YlOrRd', orientation = 'h', x_scale_type="log") 
+
+
+
+```
+
 
 
 
@@ -528,20 +538,7 @@ plot_ly(natmon_type, labels = ~ natmon_type$type, values = ~ natmon_type$monumen
 
 
 
-### Monument acreage size <span style="font-size:small">(smallest to largest)</span>
 
-```{r bargraph2, echo=FALSE}
-
-natmon_acres %>%
-  count(natmon_acres$monument) %>%
-  mutate(natmon_acres$monument) %>%
-
-
-  plot_ly(x = natmon_acres$monument_acres, y = natmon_acres$monument, type = "bar", color = 'YlOrRd', orientation = 'h', x_scale_type="log") 
-
-
-
-```
 
 
 

@@ -39,6 +39,7 @@ dat <- read.csv("NWRS_refined.csv")
 nm <- read.csv("table_10.csv")
 fh <- read.csv("table_7.csv")
 wa <- read.csv("table_8.csv")
+fy <- read.csv("table_2.csv")
 
 
 
@@ -168,7 +169,7 @@ natmon_type <- aggregate(
 names (natmon_type) <- c("type", "monument_acres")
 
 
-# add decimals
+
 
 
 ```
@@ -564,12 +565,91 @@ plot_ly(natmon_type, labels = ~ natmon_type$type, values = ~ natmon_type$monumen
 
 
 
+FY 19
+=======================================================================
+
+Column {data-width=220}
+-----------------------------------------------------------------------
 
 
+### intro
 
 
+### overall spending for FY 19
+
+<div style='padding:3px; margin-bottom: 12px; background-color:#FF8400; color:white; border-radius:2px; font-size: 1.2em'>
+Total acres purchased by FWS
+```{r pct_overall5, echo=FALSE}
+
+formatted_number9 <- formatC(sum(natmon_acres$monument_acres), format = "d", big.mark=",")
+
+tags$p(
+  style = "font-size:1.5em; font-weight:600; color:white",
+  formatted_number9, "ac."
+)
+
+#_Refer to Table 10._
+
+```
+</div>
+<!-- <br> -->
+
+<div style='padding-left:5px; padding-right:50px;'>
+
+Total purchase cost by FWS 
+```{r n_intra5, echo=FALSE}
+tags$p(
+  style = "font-size:1.7em; font-weight:700;",
+  sum(state_data$pub_cost)
+)
+```
+
+<hr>
+
+ 
+```{r n_list5, eval = FALSE}
+tags$p(
+  style = "font-size:1.7em; font-weight:700;",
+  "$", sum(state_data$pub_cost)
+)
+```
+</div>
+
+<br>
 
 
+Column {data-width=800}
+-----------------------------------------------------------------------
+
+### Federal spending on National Wildlife Refuges <span style="font-size:small">(hover over states for info)</span>
+
+```{r map6, echo=FALSE}
+state_data$hover <- with(state_data, paste0(
+  "<span style='font-size:larger;font-weight:bold'>", "Total Spending in ", state, 
+  ": $", pub_cost, "</span><br>", 
+  "<b>Total amount spent per acre of refuge land: $</b>", dollar_acre
+))
+
+g <- list(
+  scope = 'usa',
+  projection = list(type = 'albers usa'),
+  showlakes = TRUE,
+  lakecolor = toRGB('white')
+)
+  
+renderPlotly({
+  plot_geo(state_data, locationmode = 'USA-states', hoverlabel = "none") %>%
+    add_trace(
+      z = ~pub_cost, 
+      text = ~hover,
+      locations = ~state_abb,
+      color = ~pub_cost, 
+      colors = 'YlOrRd'
+    ) %>%
+    colorbar(title = "Amount Spent") %>%
+    layout(geo = g)
+})
+```
 
 
 

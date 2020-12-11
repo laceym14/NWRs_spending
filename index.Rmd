@@ -182,6 +182,12 @@ Column {data-width=220}
 
 ### Introduction
 
+notes: 
+include easements;
+good to have FY 19 but also overall refuge report-which is tab 1- to note changes;
+make sure waterfowl production areas are defined;
+add refuge locations - Version2
+
 [The U.S. Fish and Wildlife Service](https://www.fws.gov/) provides expenditure data reports each year in 59 pages of dense PDFs. We have taken the time to extract the 2019 Annual Lands Report data and make this information readily available. (Data from the [U.S. Fish and Wildlife Service](https://www.fws.gov/refuges/land/PDF/2019_Annual_Report_Data_Tables(508-Compliant).pdf), as of 9/30/2019). National Wildlife Refuges (NWRs) include the Refuge System lands, waters, and interests administered by Fish and Wildlife Service as wildlife refuges, wildlife ranges, wildlife monument areas, game preserves, and conservation areas. 
 
 
@@ -212,7 +218,7 @@ tags$p(
 
 <div style='padding-left:5px; padding-right:50px;'>
  
-Acres acquired by other agencies (DOE, AF, R, etc.) for which the Service has *some* management responsibilities:
+_Maybe add easement information here instead of other agencies?_ Acres acquired by other agencies (DOE, AF, R, etc.) for which the Service has *some* management responsibilities:
 ```{r n_intra}
 formatted_number1 <- formatC(sum(state_data$other_total_secondary_acres), format = "d", big.mark=",")
 
@@ -598,6 +604,7 @@ tags$p(
 
 Total purchase cost by FWS 
 ```{r n_intra5, echo=FALSE}
+
 tags$p(
   style = "font-size:1.7em; font-weight:700;",
   sum(state_data$pub_cost)

@@ -668,10 +668,12 @@ Data
 Column {data-width=250}
 -----------------------------------------------------------------------
 ### Background
+```{r}
+img(src = "redwolves.png", height = 340, width = 600)
+```
 
-<div>
-include_graphics("Example.png")
-</div>
+
+
 
 
 Discuss breakdown of refuge land: refuges, hatcheries, wilderness areas, national monuments

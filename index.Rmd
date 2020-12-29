@@ -530,7 +530,7 @@ Column {data-width=800, .tabset}
 
 ```{r, square pie chart, echo=FALSE}
 
-parts <- c(2, 98)
+parts <- c('monument area under other authority'=2, 'NWRS managed monument area'=98)
 waffle(parts, rows=10)
 
 

@@ -80,13 +80,13 @@ acres <- aggregate(
   FUN = sum)
 names(acres) <- c("state", "total_acres")
 
-# get acres acquired by other agencies - primary jurisdiction
+# get acres acquired by other agencies - primary jurisdiction (might not need)
 acres_by_other_primary <- aggregate(
   dat$pub_acq_other_fed_primary ~ dat$state_territory,
   FUN = sum)
 names (acres_by_other_primary) <- c("state", "other_total_primary_acres")
 
-#get acres aquired by other agencies - secondary jurisdiction 
+#get acres aquired by other agencies - secondary jurisdiction (might not need)
 acres_by_other <- aggregate(
   dat$pub_acq_other_fed_secondary ~ dat$state_territory,
   FUN = sum)
@@ -96,10 +96,10 @@ names(acres_by_other) <- c("state", "other_total_secondary_acres")
 # Join acres to state_data
 state_data <- left_join(state_data, acres, by = "state")
 
-# join acres by other - secondary to state_data
+# join acres by other - secondary to state_data (might not use)
 state_data <- left_join(state_data, acres_by_other, by = "state")
 
-#join acres by other - primary to state_data
+#join acres by other - primary to state_data (likely wont use)
 state_data <- left_join(state_data, acres_by_other_primary, by = "state")
 
 
@@ -169,8 +169,38 @@ natmon_type <- aggregate(
 names (natmon_type) <- c("type", "monument_acres")
 
 
-# get
+# get nwrs per state for 2019
+fynwrs_state <- aggregate(
+  fy$unit_name ~ fy$state_territory,
+  FUN = function(x) length(unique(x))
+)
 
+# total public spending in each state for fy 19
+fycost_state <- aggregate(
+  fy$pub_fws_purchase_cost ~ fy$state_territory,
+  FUN = sum)
+
+# clean up names
+names(fynwrs_state) <- c("state", "refuge count")
+names(fycost_state) <- c("state", "fy_pub_cost")
+
+# join datasets into one
+fy_state_data <- left_join(fycost_state, fynwrs_state, by = "state")
+
+# Join state abbreviations into fy_state_data dataset
+fy_state_data <- left_join(fy_state_data, st_abbrev, by = "state")
+
+# Get total number of fy 19 refuge acres in each state
+fy_acres <- aggregate(
+  fy$total_acres ~ fy$state_territory, 
+  FUN = sum)
+names(fy_acres) <- c("state", "fy_total_acres")
+
+# Join fy 19 acres to fy_state_data
+fy_state_data <- left_join(fy_state_data, fy_acres, by = "state")
+
+# Add column to calculate dollars spent per acre in each state and round to two decimal places
+fy_state_data$dollar_acre <- format(round(fy_state_data$fy_pub_cost / fy_state_data$fy_total_acres, 2), nsmall = 2)
 
 ```
 
@@ -180,15 +210,13 @@ Refuge System
 Column {data-width=220}
 -----------------------------------------------------------------------
 
-### Introduction
+### Background
 
-notes: 
-include easements;
-good to have FY 19 but also overall refuge report-which is tab 1- to note changes;
-make sure waterfowl production areas are defined;
-add refuge locations - Version2
+[The U.S. Fish and Wildlife Service](https://www.fws.gov/) provides expenditure data reports each year in 59 pages of dense PDFs. We have taken the time to extract the 2019 Annual Lands Report data and make this information readily available. (Data from the [U.S. Fish and Wildlife Service](https://www.fws.gov/refuges/land/PDF/2019_Annual_Report_Data_Tables(508-Compliant).pdf), as of 9/30/2019). 
 
-[The U.S. Fish and Wildlife Service](https://www.fws.gov/) provides expenditure data reports each year in 59 pages of dense PDFs. We have taken the time to extract the 2019 Annual Lands Report data and make this information readily available. (Data from the [U.S. Fish and Wildlife Service](https://www.fws.gov/refuges/land/PDF/2019_Annual_Report_Data_Tables(508-Compliant).pdf), as of 9/30/2019). National Wildlife Refuges (NWRs) include the Refuge System lands, waters, and interests administered by Fish and Wildlife Service as wildlife refuges, wildlife ranges, wildlife monument areas, game preserves, and conservation areas. 
+<br> 
+
+National Wildlife Refuges (NWRs) include the Refuge System lands, waters, and interests administered by Fish and Wildlife Service as wildlife refuges, wildlife ranges, wildlife monument areas, game preserves, and conservation areas. 
 
 
 
@@ -243,7 +271,6 @@ tags$p(
 <hr>
 
 _Easements - acres purchased by FWS_:
-
 ```{r}
 formatted_number2 <- formatC(sum(dat$ease_fws_purchase_acres), format = "d", big.mark = ",")
 
@@ -284,7 +311,7 @@ tags$p(
 Column {data-width=800}
 -----------------------------------------------------------------------
 
-### Federal spending on National Wildlife Refuges <span style="font-size:small">(hover over states for info)</span>
+### Federal spending on National Wildlife Refuges since 2016 <span style="font-size:small">(hover over states for info)</span>
 
 ```{r map, echo=FALSE}
 # signif(x, digits = )
@@ -607,7 +634,7 @@ Column {data-width=220}
 
 
 ### Information
-Fiscal Year 2019 Acquisitions and Disposals from 10/1/2018 through 9/30/2019.
+Fiscal Year 2019 Acquisitions and Disposals from 10/1/2018 through 9/30/2019 of all Service-lands.
 
 ### overall spending for FY 19
 
@@ -695,9 +722,9 @@ Column {data-width=800}
 ### 2019 Federal spending on National Wildlife Refuges <span style="font-size:small">(hover over states for info)</span>
 
 ```{r map6, echo=FALSE}
-state_data$hover <- with(state_data, paste0(
+fy_state_data$hover <- with(fy_state_data, paste0(
   "<span style='font-size:larger;font-weight:bold'>", "Total Spending in ", state, 
-  ": $", pub_cost, "</span><br>", 
+  ": $", fy_pub_cost, "</span><br>", 
   "<b>Total amount spent per acre of refuge land: $</b>", dollar_acre
 ))
 
@@ -709,12 +736,12 @@ g <- list(
 )
   
 renderPlotly({
-  plot_geo(state_data, locationmode = 'USA-states', hoverlabel = "none") %>%
+  plot_geo(fy_state_data, locationmode = 'USA-states', hoverlabel = "none") %>%
     add_trace(
-      z = ~pub_cost, 
+      z = ~fy_pub_cost, 
       text = ~hover,
       locations = ~state_abb,
-      color = ~pub_cost, 
+      color = ~fy_pub_cost, 
       colors = 'YlOrRd'
     ) %>%
     colorbar(title = "Amount Spent") %>%

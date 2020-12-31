@@ -43,7 +43,6 @@ fy <- read.csv("table_2.csv")
 
 
 
-dat <- readRDS(file = "NWRS_refined.rds")
 natmon <- readRDS(file = "table_10.rds")
 hatcheries <- readRDS(file = "table_7.rds")
 wilderness <- readRDS(file = "table_8.rds")
@@ -238,9 +237,6 @@ tags$p(
   style = "font-size:1.5em; font-weight:600; color:white",
   formatted_number, "acres"
 )
-
-
-
 ```
 </div>
 <!-- <br> -->
@@ -259,14 +255,14 @@ tags$p(
 
 
 
-_Public lands and waters - costs purchased by FWS (since 2016)_:
+_Public lands and waters - cost of purchases by FWS (since 2016)_:
 ```{r n_intro}
 
-formatted_number3 <- formatC(sum(dat$pub_fws_purchase_cost), format = "d", big.mark=",")
+formatted_number16 <- formatC(sum(dat$pub_fws_purchase_cost), format = "d", big.mark = ",")
 
 tags$p(
-  style = "font-size:1.5em; font-weight:700;",
-  formatted_number3, "ac"
+  style = "font-size:1.5em; font-weight:700;", "$",
+  formatted_number16
 )
 
 ```
@@ -284,16 +280,15 @@ tags$p(
 )
 ```
 
-_Easements - costs purchased by FWS (since 2016)_: 
-```{r, eval=FALSE}
+_Easements - cost of purchases by FWS (since 2016)_: 
+```{r}
 
-# change factor to num
 
 formatted_number4 <- formatC(sum(dat$ease_fws_purchase_cost), format = "d", big.mark = ",")
 
 tags$p(
-  style = "font-size:1.5em; font-weight:700;",
-  formatted_number4, "dollars"
+  style = "font-size:1.5em; font-weight:700;", "$",
+  formatted_number4
 )
 ```
 

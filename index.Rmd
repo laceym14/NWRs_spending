@@ -198,10 +198,10 @@ add refuge locations - Version2
 <div style='padding:3px; margin-bottom: 12px; background-color:#FF8400; color:white; border-radius:2px; font-size: 1.2em'>
 Total refuge land area
 ```{r pct_overall}
-
+#assign to a variable
 formatted_number <- formatC(sum(state_data$total_acres), format = "d", big.mark=",")
 
-#assign to a variable
+
 
 tags$p(
   style = "font-size:1.5em; font-weight:600; color:white",
@@ -418,6 +418,8 @@ Column {data-width=200}
 
 ### Introduction
 
+add log scale!
+
 The following map identifies the designated wilderness areas within each state and includes total wilderness acreage in a NWR. The refuges are included under the refuge system tab. Wilderness Areas in National Wildlife Refuges identifies the Congressionally designated wilderness areas within national wildlife refuges and one national fish hatchery. These are also included in the NWR map. 
 
 
@@ -556,7 +558,7 @@ Column {data-width=800, .tabset}
 
 ```{r, square pie chart, echo=FALSE}
 
-parts <- c('monument area under other authority'=2, 'NWRS managed monument area'=98)
+parts <- c('Monument area under other authority'=2, 'NWRS managed monument area'=98)
 waffle(parts, rows=10)
 
 
@@ -605,15 +607,15 @@ Column {data-width=220}
 
 
 ### Information
-
+Fiscal Year 2019 Acquisitions and Disposals from 10/1/2018 through 9/30/2019.
 
 ### overall spending for FY 19
 
 <div style='padding:3px; margin-bottom: 12px; background-color:#FF8400; color:white; border-radius:2px; font-size: 1.2em'>
-Total acres purchased by FWS
+Total refuge land:
 ```{r pct_overall5, echo=FALSE}
 
-formatted_number9 <- formatC(sum(natmon_acres$monument_acres), format = "d", big.mark=",")
+formatted_number9 <- formatC(sum(fy$total_acres), format = "d", big.mark=",")
 
 tags$p(
   style = "font-size:1.5em; font-weight:600; color:white",
@@ -628,7 +630,7 @@ tags$p(
 
 <div style='padding-left:5px; padding-right:50px;'>
 
-Total purchase cost by FWS 
+Public lands and waters - acres purchased by FWS:
 ```{r n_intra5, echo=FALSE}
 
 tags$p(
@@ -637,10 +639,38 @@ tags$p(
 )
 ```
 
+Public lands and waters - costs purchased by FWS:
+```{r}
+tags$p(
+  style = "font-size:1.5em; font-weight:700",
+  sum(fy$pub_fws_purchase_acres)
+)
+```
+
 <hr>
 
- 
+Easements - acres purchased by FWS:
+```{r}
+tags$p(
+  style = "font-size:1.5em; font-weight:700",
+  sum(fy$ease_fws_purchase_acres)
+)
+```
+
+Easements - acres purchased by FWS:
+```{r, eval=FALSE}
+tags$p(
+  style = "font-size:1.5em; font-weight:700",
+  sum(fy$ease_fws_purchase_cost)
+)
+```
+
+
+<hr>
+
 ```{r n_list5, eval = FALSE}
+# do not need!
+# total land purchase cost by FWS
 tags$p(
   style = "font-size:1.7em; font-weight:700;",
   "$", sum(state_data$pub_cost)

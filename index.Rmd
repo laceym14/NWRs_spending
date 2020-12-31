@@ -191,8 +191,6 @@ add refuge locations - Version2
 [The U.S. Fish and Wildlife Service](https://www.fws.gov/) provides expenditure data reports each year in 59 pages of dense PDFs. We have taken the time to extract the 2019 Annual Lands Report data and make this information readily available. (Data from the [U.S. Fish and Wildlife Service](https://www.fws.gov/refuges/land/PDF/2019_Annual_Report_Data_Tables(508-Compliant).pdf), as of 9/30/2019). National Wildlife Refuges (NWRs) include the Refuge System lands, waters, and interests administered by Fish and Wildlife Service as wildlife refuges, wildlife ranges, wildlife monument areas, game preserves, and conservation areas. 
 
 
-If you're interested in the Refuge System, take a look at our [story map](https://defenders-cci.org/publication/esas-on-nwrs/) or [report](https://defenders-cci.org/publication/esas-on-nwrs/) and see the significance they have on imperiled species! 
-
 
 ### Overall U.S. Numbers
 
@@ -218,9 +216,9 @@ tags$p(
 
 <div style='padding-left:5px; padding-right:50px;'>
  
-_Maybe add easement information here instead of other agencies?_ Acres acquired by other agencies (DOE, AF, R, etc.) for which the Service has *some* management responsibilities:
+_Public lands and waters - acres purchased by FWS_:
 ```{r n_intra}
-formatted_number1 <- formatC(sum(state_data$other_total_secondary_acres), format = "d", big.mark=",")
+formatted_number1 <- formatC(sum(dat$pub_fws_purchase_acres), format = "d", big.mark=",")
 
 tags$p(
   style = "font-size:1.5em; font-weight:700;",
@@ -228,11 +226,11 @@ tags$p(
 )
 ```
 
-<hr>
 
-Acres acquired by other agencies and transferred to the Service to use as wildlife habitat:
+
+_Public lands and waters - costs purchased by FWS_:
 ```{r n_intro}
-formatted_number3 <- formatC(sum(state_data$other_total_primary_acres), format = "d", big.mark=",")
+formatted_number3 <- formatC(sum(dat$pub_fws_purchase_cost), format = "d", big.mark=",")
 
 tags$p(
   style = "font-size:1.5em; font-weight:700;",
@@ -244,7 +242,33 @@ tags$p(
 
 <hr>
 
-Total land purchase cost:
+_Easements - acres purchased by FWS_:
+
+```{r}
+formatted_number2 <- formatC(sum(dat$ease_fws_purchase_acres), format = "d", big.mark = ",")
+
+tags$p(
+  style = "font-size:1.5em; font-weight:700;",
+  formatted_number2, "ac"
+)
+```
+
+_Easements - costs purchased by FWS_: 
+```{r, eval=FALSE}
+
+# change factor to num
+
+formatted_number4 <- formatC(sum(dat$ease_fws_purchase_cost), format = "d", big.mark = ",")
+
+tags$p(
+  style = "font-size:1.5em; font-weight:700;",
+  formatted_number4, "dollars"
+)
+```
+
+<hr>
+
+Total land purchase cost (since 2016):
 ```{r n_list}
 
 tags$p(
@@ -263,6 +287,8 @@ Column {data-width=800}
 ### Federal spending on National Wildlife Refuges <span style="font-size:small">(hover over states for info)</span>
 
 ```{r map, echo=FALSE}
+# signif(x, digits = )
+
 state_data$hover <- with(state_data, paste0(
   "<span style='font-size:larger;font-weight:bold'>", "Total Spending in ", state, 
   ": $", pub_cost, "</span><br>", 
@@ -682,7 +708,7 @@ img(src = "redwolves.png", height = 400, width = 600)
 <a class='btn btn-default shiny-download-link shiny-bound-output' href='https://osf.io/4u8nq/?view_only=639311037ad1420388e9e84563e5ae38' style="width:250px" target="_blank">Access data files</a>
 
 
-The extracted data from PDF files to Excel can be found in [OSF](https://osf.io/4u8nq/?view_only=9364429fcdea45c2b8d963df33bf63d1).
+The extracted data from PDF files to Excel can be found in OSF.
 
 
 <h3>Refuge Report</h3>

@@ -256,7 +256,7 @@ tags$p(
 
 
 
-_Public lands and waters - costs purchased by FWS_:
+_Public lands and waters - costs purchased by FWS (since 2016)_:
 ```{r n_intro}
 formatted_number3 <- formatC(sum(dat$pub_fws_purchase_cost), format = "d", big.mark=",")
 
@@ -280,7 +280,7 @@ tags$p(
 )
 ```
 
-_Easements - costs purchased by FWS_: 
+_Easements - costs purchased by FWS (since 2016)_: 
 ```{r, eval=FALSE}
 
 # change factor to num
@@ -295,9 +295,9 @@ tags$p(
 
 <hr>
 
-Total land purchase cost (since 2016):
-```{r n_list}
 
+```{r n_list, eval=FALSE}
+# Total land purchase cost (since 2016):
 tags$p(
   style = "font-size:1.5em; font-weight:700;",
   "$", sum(state_data$pub_cost)
@@ -315,11 +315,14 @@ Column {data-width=800}
 
 ```{r map, echo=FALSE}
 # signif(x, digits = )
+formatted_number0 <- formatC(state_data$pub_cost, format = "d", big.mark = ",")
+
+sig1 <- signif(state_data$pub_cost, digits = 3)
 
 state_data$hover <- with(state_data, paste0(
   "<span style='font-size:larger;font-weight:bold'>", "Total Spending in ", state, 
-  ": $", pub_cost, "</span><br>", 
-  "<b>Total amount spent per acre of refuge land: $</b>", dollar_acre
+  ": $", formatted_number0, "</span><br>", 
+  "<b>Total amount spent per acre of refuge land: $</b>", dollar_acre, "</span><br>", "<b># of refuges: </b>", refuge_count
 ))
 
 g <- list(
@@ -332,7 +335,7 @@ g <- list(
 renderPlotly({
   plot_geo(state_data, locationmode = 'USA-states', hoverlabel = "none") %>%
     add_trace(
-      z = ~pub_cost, 
+      z = ~sig1, 
       text = ~hover,
       locations = ~state_abb,
       color = ~pub_cost, 
@@ -491,6 +494,9 @@ Column {data-width=800}
 ### Wilderness Areas in National Wildlife Refuges <span style="font-size:small">(hover over states for info)</span>
 
 ```{r map3, echo=FALSE}
+
+sig0 <- signif(wild_state_data$wild_acres, digits = 3)
+
 wild_state_data$hover <- with(wild_state_data, paste0(
   "<span style='font-size:larger;font-weight:bold'>", "# Wilderness Areas in ", state, 
   ": ", wilderness_count, "</span><br>", 
@@ -507,7 +513,7 @@ g <- list(
 renderPlotly({
   plot_geo(wild_state_data, locationmode = 'USA-states', hoverlabel = "none") %>%
     add_trace(
-      z = ~wild_acres, 
+      z = ~sig0, 
       text = ~hover,
       locations = ~state_abb,
       color = ~wild_acres, 
@@ -722,9 +728,13 @@ Column {data-width=800}
 ### 2019 Federal spending on National Wildlife Refuges <span style="font-size:small">(hover over states for info)</span>
 
 ```{r map6, echo=FALSE}
+
+formatted_number13 <- formatC(fy_state_data$fy_pub_cost, format = "d", big.mark = ",")
+sig2 <- signif(fy_state_data$fy_pub_cost, digits = 3)
+
 fy_state_data$hover <- with(fy_state_data, paste0(
   "<span style='font-size:larger;font-weight:bold'>", "Total Spending in ", state, 
-  ": $", fy_pub_cost, "</span><br>", 
+  ": $", formatted_number13, "</span><br>", 
   "<b>Total amount spent per acre of refuge land: $</b>", dollar_acre
 ))
 
@@ -738,7 +748,7 @@ g <- list(
 renderPlotly({
   plot_geo(fy_state_data, locationmode = 'USA-states', hoverlabel = "none") %>%
     add_trace(
-      z = ~fy_pub_cost, 
+      z = ~sig2, 
       text = ~hover,
       locations = ~state_abb,
       color = ~fy_pub_cost, 

@@ -631,19 +631,22 @@ tags$p(
 <div style='padding-left:5px; padding-right:50px;'>
 
 Public lands and waters - acres purchased by FWS:
-```{r n_intra5, echo=FALSE}
+
+```{r}
+formatted_number10 <- formatC(sum(fy$pub_fws_purchase_acres), format = "d", big.mark = ",")
 
 tags$p(
-  style = "font-size:1.7em; font-weight:700;",
-  sum(state_data$pub_cost)
+  style = "font-size:1.5em; font-weight:700",
+  formatted_number10, "ac."
 )
 ```
 
 Public lands and waters - costs purchased by FWS:
-```{r}
+```{r n_intra5, echo=FALSE}
+# need to replace with cost
 tags$p(
-  style = "font-size:1.5em; font-weight:700",
-  sum(fy$pub_fws_purchase_acres)
+  style = "font-size:1.7em; font-weight:700;",
+  sum(state_data$pub_cost)
 )
 ```
 
@@ -651,9 +654,11 @@ tags$p(
 
 Easements - acres purchased by FWS:
 ```{r}
+formatted_number11 <- formatC(sum(fy$ease_fws_purchase_acres), format = "d", big.mark = ",")
+
 tags$p(
   style = "font-size:1.5em; font-weight:700",
-  sum(fy$ease_fws_purchase_acres)
+  formatted_number11, "ac."
 )
 ```
 

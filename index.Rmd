@@ -494,13 +494,14 @@ Column {data-width=800}
 ### Wilderness Areas in National Wildlife Refuges <span style="font-size:small">(hover over states for info)</span>
 
 ```{r map3, echo=FALSE}
+formatted_number14 <- formatC(wild_state_data$wild_acres, format = "d", big.mark = ",")
 
 sig0 <- signif(wild_state_data$wild_acres, digits = 3)
 
 wild_state_data$hover <- with(wild_state_data, paste0(
   "<span style='font-size:larger;font-weight:bold'>", "# Wilderness Areas in ", state, 
   ": ", wilderness_count, "</span><br>", 
-  "<b>Total amount of wilderness acre in refuge land: </b> ", wild_acres
+  "<b>Total amount of wilderness acre in refuge land: </b> ", formatted_number14
 ))
 
 g <- list(
@@ -523,8 +524,6 @@ renderPlotly({
     layout(geo = g)
 })
 ```
-
-
 
 
 

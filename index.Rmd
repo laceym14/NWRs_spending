@@ -578,7 +578,7 @@ Column {data-width=220}
 -----------------------------------------------------------------------
 
 
-### intro
+### Information
 
 
 ### overall spending for FY 19
@@ -667,29 +667,36 @@ Data
 
 Column {data-width=250}
 -----------------------------------------------------------------------
-### Background
-```{r}
-img(src = "redwolves.png", height = 340, width = 600)
-```
 
-
-
-
-
-Discuss breakdown of refuge land: refuges, hatcheries, wilderness areas, national monuments
-
-As the first nation to develop a formal network of protected areas, the US has led the way in sharing the landscape with our wildlife neighbors. Today, our National Wildlife Refuge System includes some 568 national wildlife refuges, dedicating 95 million acres of land and 760 million acres of submerged lands and waters as a sanctuary for our nation's wildlife. Every state and US territory has at least one wildlife refuge, and most major US cities are within an hour's drive of one.
-
-While their awe-inspiring beauty attracts many human visitors, wildlife comes first on our refuges. The mission of the refuge system goes hand in hand with the goals of the Endangered Species Act (ESA) - the most effective law in the world for saving imperiled species and the ecosystems on which they depend. We have known about the special relationship between the ESA and refuges for decades, but unfortunately there has been no robust tally of how many threatened and endangered species are found on the National Wildlife Refuge System. Defenders of Wildlife and the National Wildlife Refuge Association teamed up to figure it out.
-
-What we found is astounding: 513 ESA-listed species are found or are dependent on at least 444 refuges! Read more about refuges in CCI's [story map](https://defenders-cci.org/publication/esas-on-nwrs/).
-
-
-Column {data-width=200}
+Column 2 {data-width=400}
 -----------------------------------------------------------------------
 
-### Data
+
+
+```{r}
+img(src = "redwolves.png", height = 400, width = 600)
+```
+
+<h3>Data</h3>
+
+<a class='btn btn-default shiny-download-link shiny-bound-output' href='https://osf.io/4u8nq/?view_only=639311037ad1420388e9e84563e5ae38' style="width:250px" target="_blank">Access data files</a>
+
+
 The extracted data from PDF files to Excel can be found in [OSF](https://osf.io/4u8nq/?view_only=9364429fcdea45c2b8d963df33bf63d1).
+
+
+<h3>Refuge Report</h3>
+
+<a class='btn btn-default shiny-download-link shiny-bound-output' href='https://defenders-cci.org/files/ESA-NWRS_report.pdf' style="width:250px" target="_blank">Access report</a>
+
+
+<h3>Storymap</h3>
+<a class='btn btn-default shiny-download-link shiny-bound-output' href='https://storymaps.arcgis.com/stories/db28de2af5224f008f0f08bdda3a247d' style="width:250px" target="_blank">Access storymap</a>
+
+
+
+Column 3 {data-width=250}
+-----------------------------------------------------------------------
 
 
 ```{r data_table, echo = FALSE}

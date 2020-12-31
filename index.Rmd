@@ -61,6 +61,9 @@ cost_state <- aggregate(
   dat$pub_fws_purchase_cost ~ dat$state_territory, 
   FUN = sum)
 
+# change from int to numeric
+
+
 # Clean up column naming for both datasets
 names(nwrs_state) <- c("state", "refuge_count")
 names(cost_state) <- c("state", "pub_cost")
@@ -258,6 +261,7 @@ tags$p(
 
 _Public lands and waters - costs purchased by FWS (since 2016)_:
 ```{r n_intro}
+
 formatted_number3 <- formatC(sum(dat$pub_fws_purchase_cost), format = "d", big.mark=",")
 
 tags$p(
@@ -356,7 +360,7 @@ Hatcheries
 Column {data-width=200}
 -----------------------------------------------------------------------
 
-### Introduction
+### Background
 
 National Fish Hatcheries are National Fish Hatchery System lands and waters where fish are raised. The following map shows number of hatcheries in each state (if any) and total acres.
 
@@ -446,9 +450,7 @@ Wilderness Areas
 Column {data-width=200}
 -----------------------------------------------------------------------
 
-### Introduction
-
-add log scale!
+### Background
 
 The following map identifies the designated wilderness areas within each state and includes total wilderness acreage in a NWR. The refuges are included under the refuge system tab. Wilderness Areas in National Wildlife Refuges identifies the Congressionally designated wilderness areas within national wildlife refuges and one national fish hatchery. These are also included in the NWR map. 
 
@@ -533,7 +535,7 @@ National Monuments
 Column {data-width=200}
 -----------------------------------------------------------------------
 
-### Introduction
+### Background
 
 The following graph shows total acreage per National Monument. The square waffle chart shows monument acres within refuge boundary (NWRS Managed Monument Area) compared to acres outside boundary (Monument Area administered Under other authority).
 
@@ -638,7 +640,7 @@ Column {data-width=220}
 -----------------------------------------------------------------------
 
 
-### Information
+### Background
 Fiscal Year 2019 Acquisitions and Disposals from 10/1/2018 through 9/30/2019 of all Service-lands.
 
 ### overall spending for FY 19
@@ -662,7 +664,7 @@ tags$p(
 
 <div style='padding-left:5px; padding-right:50px;'>
 
-Public lands and waters - acres purchased by FWS:
+_Public lands and waters - acres purchased by FWS:_
 ```{r}
 formatted_number10 <- formatC(sum(fy$pub_fws_purchase_acres), format = "d", big.mark = ",")
 
@@ -672,7 +674,7 @@ tags$p(
 )
 ```
 
-Public lands and waters - FWS puchase costs:
+_Public lands and waters - FWS puchase costs:_
 ```{r n_intra5, echo=FALSE}
 # need to replace with cost
 formatted_number11 <- formatC(sum(fy$pub_fws_purchase_cost), format = "d", big.mark = ",")
@@ -685,7 +687,7 @@ tags$p(
 
 <hr>
 
-Easements - acres purchased by FWS:
+_Easements - acres purchased by FWS:_
 ```{r}
 formatted_number11 <- formatC(sum(fy$ease_fws_purchase_acres), format = "d", big.mark = ",")
 
@@ -695,7 +697,7 @@ tags$p(
 )
 ```
 
-Easements - FWS purchase costs:
+_Easements - FWS purchase costs:_
 ```{r,}
 formatted_number12 <- formatC(sum(fy$ease_fws_purchase_cost), format = "d", big.mark = ",")
 

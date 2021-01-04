@@ -258,11 +258,10 @@ tags$p(
 _Public lands and waters - cost of purchases by FWS (since 2016)_:
 ```{r n_intro}
 
-formatted_number16 <- formatC(sum(dat$pub_fws_purchase_cost), format = "d", big.mark = ",")
+formatted_number16 <- formatC(sum(dat$pub_fws_purchase_cost), format("d"), big.mark = ",")
 
 tags$p(
-  style = "font-size:1.5em; font-weight:700;", "$",
-  formatted_number16
+  style = "font-size:1.5em; font-weight:700;", "$", formatted_number16
 )
 
 ```

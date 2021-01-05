@@ -255,7 +255,7 @@ tags$p(
 
 
 
-_Public lands and waters - cost of purchases by FWS (since 2016)_:
+_Public lands and waters - cost of purchases by FWS_:
 ```{r n_intro}
 
 formatted_number16 <- formatC(sum(dat$pub_fws_purchase_cost), format("d"), big.mark = ",")
@@ -279,7 +279,7 @@ tags$p(
 )
 ```
 
-_Easements - cost of purchases by FWS (since 2016)_: 
+_Easements - cost of purchases by FWS_: 
 ```{r}
 
 
@@ -637,7 +637,7 @@ Column {data-width=220}
 ### Background
 Fiscal Year 2019 Acquisitions and Disposals from 10/1/2018 through 9/30/2019 of all Service-lands.
 
-### overall spending for FY 19
+### Overall spending for FY 19
 
 <div style='padding:3px; margin-bottom: 12px; background-color:#FF8400; color:white; border-radius:2px; font-size: 1.2em'>
 Total refuge land:
